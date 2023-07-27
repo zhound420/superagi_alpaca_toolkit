@@ -1,18 +1,8 @@
 from typing import Any, Dict, List
 from pydantic import BaseModel
-from superagi.tools.base_tool import BaseTool
+from superagi.tools.base_tool import BaseToolkit, BaseTool
 
-class BaseTool(BaseModel):
-    name: str
-    description: str
-
-    class Config:
-        arbitrary_types_allowed = True
-
-class AlpacaTool(BaseTool):
-    pass
-
-class BaseToolkit(BaseModel):
+class AlpacaTool(BaseToolkit, BaseModel):
     name: str
     description: str
     tools: List[BaseTool]
