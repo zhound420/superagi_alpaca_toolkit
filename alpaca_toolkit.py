@@ -1,21 +1,6 @@
 
 import os
 from superagi.tools.base_tool import BaseToolkit
-
-class MyToolkit(BaseToolkit):
-    def __init__(self, tools):
-        super().__init__(tools)
-
-    def get_env_keys(self):
-        env_keys = []
-        for tool in self.tools:
-            if hasattr(tool, 'get_env_keys'):
-                env_keys.extend(tool.get_env_keys())
-        return env_keys
-
-    def get_tools(self):
-        return self.tools
-
 from alpaca_get_account_information_tool import AlpacaGetAccountInformationTool
 from alpaca_close_trade_tool import AlpacaCloseTradeTool
 from alpaca_place_trade_tool import AlpacaPlaceTradeTool
@@ -43,4 +28,4 @@ tools = [
     AlpacaGetDayPercentChangeTool,
 ]
 
-toolkit = MyToolkit(tools)
+toolkit = BaseToolkit(tools)
