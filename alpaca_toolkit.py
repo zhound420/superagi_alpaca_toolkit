@@ -1,6 +1,6 @@
 
 import os
-from superagi import Toolkit
+from superagi.tools.base_tool import BaseToolkit
 from .alpaca_get_account_information_tool import AlpacaGetAccountInformationTool
 from .alpaca_close_trade_tool import AlpacaCloseTradeTool
 from .alpaca_place_trade_tool import AlpacaPlaceTradeTool
@@ -28,4 +28,4 @@ tools = [
     AlpacaGetDayPercentChangeTool,
 ]
 
-toolkit = Toolkit(tools)
+toolkit = BaseToolkit(tools)
