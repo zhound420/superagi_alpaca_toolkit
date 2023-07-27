@@ -15,7 +15,6 @@ class BaseToolkit:
     def get_tools(self):
         return self.tools
 
-from superagi.tools.base_tool import BaseToolkit
 from alpaca_get_account_information_tool import AlpacaGetAccountInformationTool
 from alpaca_close_trade_tool import AlpacaCloseTradeTool
 from alpaca_place_trade_tool import AlpacaPlaceTradeTool
