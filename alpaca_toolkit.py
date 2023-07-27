@@ -1,23 +1,29 @@
+from typing import Any, Dict, List
+from pydantic import BaseModel
 
-from typing import List
-from superagi.tools.base_tool import BaseToolkit
+class BaseTool(BaseModel):
+    name: str
+    description: str
 
-# Define the tool class
-class AlpacaTool:
+    class Config:
+        arbitrary_types_allowed = True
+
+class AlpacaTool(BaseTool):
     pass
 
-class AlpacaToolkit(BaseToolkit):
-    tools: List[AlpacaTool]  # Declare tools as a field
+class BaseToolkit(BaseModel):
+    name: str
+    description: str
+    tools: List[BaseTool]
 
-    def __init__(self, tools: List[AlpacaTool]):
-        super().__init__(name="Alpaca Toolkit", description="This is the Alpaca Toolkit", tools=tools)
-        self.tools = tools
+    class Config:
+        arbitrary_types_allowed = True
 
-    def get_env_keys(self) -> List[str]:
-        return []
+    def get_tools(self) -> Dict[str, Any]:
+        return {tool.name: tool for tool in self.tools}
 
-    def get_tools(self) -> List[AlpacaTool]:
-        return self.tools
+    def get_tool(self, name: str) -> BaseTool:
+        return self.get_tools()[name]
 
-tools = []
-toolkit = AlpacaToolkit(tools)
+tools = [AlpacaTool(name='AlpacaTool1', description='Description1')]
+toolkit = BaseToolkit(name='AlpacaToolkit', description='Description', tools=tools)
