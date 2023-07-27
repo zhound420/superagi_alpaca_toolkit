@@ -1,5 +1,6 @@
 from typing import Any, Dict, List
 from pydantic import BaseModel
+from superagi.tools.base_tool import BaseTool
 
 class BaseTool(BaseModel):
     name: str
@@ -27,3 +28,4 @@ class BaseToolkit(BaseModel):
 
 tools = [AlpacaTool(name='AlpacaTool1', description='Description1')]
 toolkit = BaseToolkit(name='AlpacaToolkit', description='Description', tools=tools)
+
