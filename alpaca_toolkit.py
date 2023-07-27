@@ -7,7 +7,7 @@ class AlpacaToolkit(BaseToolkit):
     tools: List[object]  # Declare tools as a field
 
     def __init__(self, tools):
-        self.tools = tools
+        super().__init__()  # Call the original __init__ method of BaseToolkit
 
     def get_env_keys(self):
         env_keys = []
