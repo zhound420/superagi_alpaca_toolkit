@@ -4,7 +4,7 @@ import os
 from superagi.tools.base_tool import BaseToolkit
 
 class AlpacaToolkit(BaseToolkit):
-    tools: List[AlpacaTool]  # Declare tools as a field
+    tools: List[object]  # Declare tools as a field
 
     def __init__(self, tools):
         self.tools = tools
