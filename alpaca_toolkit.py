@@ -1,5 +1,20 @@
 
 import os
+
+class BaseToolkit:
+    def __init__(self, tools):
+        self.tools = tools
+
+    def get_env_keys(self):
+        # Assuming each tool has a method get_env_keys
+        env_keys = []
+        for tool in self.tools:
+            env_keys.extend(tool.get_env_keys())
+        return env_keys
+
+    def get_tools(self):
+        return self.tools
+
 from superagi.tools.base_tool import BaseToolkit
 from alpaca_get_account_information_tool import AlpacaGetAccountInformationTool
 from alpaca_close_trade_tool import AlpacaCloseTradeTool
