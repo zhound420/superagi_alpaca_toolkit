@@ -1,15 +1,16 @@
 
 import os
+from superagi.tools.base_tool import BaseToolkit
 
-class BaseToolkit:
+class MyToolkit(BaseToolkit):
     def __init__(self, tools):
-        self.tools = tools
+        super().__init__(tools)
 
     def get_env_keys(self):
-        # Assuming each tool has a method get_env_keys
         env_keys = []
         for tool in self.tools:
-            env_keys.extend(tool.get_env_keys())
+            if hasattr(tool, 'get_env_keys'):
+                env_keys.extend(tool.get_env_keys())
         return env_keys
 
     def get_tools(self):
@@ -42,4 +43,4 @@ tools = [
     AlpacaGetDayPercentChangeTool,
 ]
 
-toolkit = BaseToolkit(tools)
+toolkit = MyToolkit(tools)
