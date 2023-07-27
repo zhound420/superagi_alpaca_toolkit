@@ -16,6 +16,6 @@ class AlpacaTool(BaseToolkit, ABC):
     def get_tool(self, name: str) -> BaseTool:
         return self.get_tools()[name]
 
-tools = [AlpacaTool(name='AlpacaTool', description='Description']
+tools = [AlpacaTool(name='AlpacaTool', description='Description')]
 toolkit = BaseToolkit(name='AlpacaToolkit', description='Description', tools=tools)
 
