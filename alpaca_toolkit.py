@@ -2,7 +2,7 @@ from typing import Any, Dict, List
 from pydantic import BaseModel
 from superagi.tools.base_tool import BaseToolkit, BaseTool
 
-class AlpacaTool(BaseToolkit, BaseModel):
+class AlpacaTool(BaseToolkit, ABC):
     name: str
     description: str
     tools: List[BaseTool]
@@ -16,6 +16,6 @@ class AlpacaTool(BaseToolkit, BaseModel):
     def get_tool(self, name: str) -> BaseTool:
         return self.get_tools()[name]
 
-tools = [AlpacaTool(name='AlpacaTool1', description='Description1')]
+tools = [AlpacaTool(name='AlpacaTool', description='Description']
 toolkit = BaseToolkit(name='AlpacaToolkit', description='Description', tools=tools)
 
