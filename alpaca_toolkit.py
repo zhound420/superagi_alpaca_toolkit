@@ -11,7 +11,7 @@ class AlpacaTool(BaseModel):
     description: str
     tools: List[BaseTool] = [MyTool()]
 
-class Config:(BaseModel):
+class Config(BaseModel):
     """
     This is the Config: class.
     """
