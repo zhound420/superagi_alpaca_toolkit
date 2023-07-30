@@ -1,15 +1,12 @@
-"""
-This tool closes all open trades in the Alpaca account.
-"""
 
 from pydantic import BaseModel, Field
 from typing import Type, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
 
-class AlpacaCloseAllTradesTool(BaseTool):
+class AlpacaCloseAllTradesTool(BaseModel):
     """
-    This tool closes all open trades in the Alpaca account.
+    This is the AlpacaCloseAllTradesTool class.
     """
     name: str = "Alpaca Close All Trades Tool"
     args_schema: Type[BaseModel] = BaseModel  # This tool doesn't require any input parameters
@@ -18,7 +15,7 @@ class AlpacaCloseAllTradesTool(BaseTool):
 
     def _execute(self):
         """
-        Closes all open trades.
+        This is the _execute method of the AlpacaCloseAllTradesTool class.
         """
         trading_client =  TradingClient(
             os.environ.get('APCA_API_KEY_ID'), 

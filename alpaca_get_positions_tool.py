@@ -4,13 +4,19 @@ from typing import Type, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
 
-class AlpacaGetPositionsTool(BaseTool):
+class AlpacaGetPositionsTool(BaseModel):
+    """
+    This is the AlpacaGetPositionsTool class.
+    """
     name: str = "Alpaca Get Positions Tool"
     args_schema: Type[BaseModel] = BaseModel  # This tool doesn't require any input parameters
     description: str = "Use Alpaca API to get positions."
     agent_id: int = None
 
     def _execute(self):
+        """
+        This is the _execute method of the AlpacaGetPositionsTool class.
+        """
         trading_client =  TradingClient(
             os.environ.get('APCA_API_KEY_ID'), 
             os.environ.get('APCA_API_SECRET_KEY'),

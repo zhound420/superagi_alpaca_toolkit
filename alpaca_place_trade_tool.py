@@ -1,6 +1,3 @@
-"""
-This tool places a trade in the Alpaca account.
-"""
 
 from pydantic import BaseModel, Field
 from typing import Type, Optional
@@ -8,21 +5,24 @@ from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
 
 class AlpacaPlaceTradeInput(BaseModel):
+    """
+    This is the AlpacaPlaceTradeInput class.
+    """
     symbol: str = Field(..., description="Symbol of the stock to place the trade for")
     qty: int = Field(..., description="Quantity of the stock to place the trade for")
 
-class AlpacaPlaceTradeTool(BaseTool):
+class AlpacaPlaceTradeTool(BaseModel):
     """
-    This tool places a trade in the Alpaca account.
+    This is the AlpacaPlaceTradeTool class.
     """
     name: str = "Alpaca Place Trade Tool"
     args_schema: Type[BaseModel] = AlpacaPlaceTradeInput
     description: str = "Use Alpaca API to place a trade."
     agent_id: int = None
 
-    def _execute(self, symbol: str, qty: int):
+    def _execute(self):
         """
-        Places a trade.
+        This is the _execute method of the AlpacaPlaceTradeTool class.
         """
         trading_client =  TradingClient(
             os.environ.get('APCA_API_KEY_ID'), 
