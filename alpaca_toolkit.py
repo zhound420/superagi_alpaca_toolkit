@@ -15,7 +15,7 @@ class Config(BaseModel):
     """
     This is the Config: class.
     """
-        arbitrary_types_allowed = True
+    arbitrary_types_allowed = True
 
     def get_tools(self):
         """
