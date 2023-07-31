@@ -4,5 +4,4 @@ yfinance
 fastapi==0.67.0
 uvicorn==0.15.0
 gunicorn==20.1.0
-alpaca-sdk
 alpaca-trade-api==0.51.0
