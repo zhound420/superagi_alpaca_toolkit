@@ -6,6 +6,46 @@ from alpaca_trade_api.trading.client import TradingClient
 from alpaca_trade_api.requests import MarketOrderRequest
 from alpaca_trade_api.enums import OrderSide, TimeInForce, OrderType
 from alpaca_trade_api.models import Position
+from typing import Optional
+
+from superagi.tools import BaseTool, ToolInput, ToolOutput
+from pydantic import BaseModel
+
+from alpaca_trade_api.rest import REST, TimeFrame
+
+class AlpacaTraderTool(BaseTool):
+
+    class Input(ToolInput):
+        api_key: str
+        secret_key: str
+        base_url: str
+        symbol: str
+        qty: int
+        time_in_force: str
+        type: str
+        side: str
+        limit_price: Optional[float] = None
+        stop_price: Optional[float] = None
+
+    class Output(ToolOutput):
+        response: dict
+
+    args_schema: type[ToolInput] = Input
+    output_schema: type[ToolOutput] = Output
+
+    async def execute(self, params: Input) -> Output:
+        api = REST(params.api_key, params.secret_key, params.base_url)
+        response = api.submit_order(
+            symbol=params.symbol,
+            qty=params.qty,
+            side=params.side,
+            type=params.type,
+            time_in_force=params.time_in_force,
+            limit_price=params.limit_price,
+            stop_price=params.stop_price,
+        )
+        return self.Output(response=response._raw)
+
 import requests
 from collections import deque
 
