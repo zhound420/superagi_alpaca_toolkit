@@ -2,7 +2,7 @@ from typing import Type, Any
 import os
 from pydantic import Field
 from superagi.tools.base_tool import BaseTool
-from alpaca_trade_api.trading.client import TradingClient
+from alpaca_trade_api.rest import REST
 
 class AlpacaGetDayPercentChangeInput(BaseTool):
     """
