@@ -1,31 +1,23 @@
 from typing import Type, Any
 import os
+from pydantic import BaseModel
 from superagi.tools.base_tool import BaseTool
-from alpaca_trade_api.trading.client import TradingClient
+from alpaca_trade_api import REST
+
+class AlpacaGetAccountInformationToolInput(BaseModel):
+    pass
 
 class AlpacaGetAccountInformationTool(BaseTool):
-    """
-    This is the AlpacaGetAccountInformationTool class.
-    """
+    """This is the AlpacaGetAccountInformationTool class."""
     name: str = "Alpaca Get Account Information Tool"
-    args_schema: Type[BaseTool] = BaseTool  # This tool doesn't require any input parameters
+    args_schema: Type[BaseModel] = AlpacaGetAccountInformationToolInput
     description: str = "Use Alpaca API to get account information."
-    agent_id: int = None
 
     def _execute(self):
-        """
-        This is the _execute method of the AlpacaGetAccountInformationTool class.
-        """
-        trading_client =  TradingClient(
+        """This is the _execute method of the AlpacaGetAccountInformationTool class."""
+        trading_client = REST(
             self.get_tool_config('APCA_API_KEY_ID'), 
             self.get_tool_config('APCA_API_SECRET_KEY'),
-            paper=bool(self.get_tool_config('APCA_PAPER'))
+            base_url='https://paper-api.alpaca.markets' if bool(self.get_tool_config('APCA_PAPER')) else 'https://api.alpaca.markets'
         )
         return trading_client.get_account()
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
