@@ -1,6 +1,7 @@
 import os,re
 from typing import Any
-from alpaca_sdk.alpaca_trade_api.rest import REST, TimeFrame
+from alpaca_trade_api.rest import REST
+from alpaca_trade_api.entity import TimeFrame
 from alpaca_sdk.alpaca_trade_api.common import URL
 from alpaca_trade_api.trading.client import TradingClient
 from alpaca_trade_api.requests import MarketOrderRequest
