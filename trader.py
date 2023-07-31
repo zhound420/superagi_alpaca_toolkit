@@ -25,9 +25,9 @@ class Trader():
 
     def __init__(self, experiment=False):
         self.trading_client =  TradingClient(
-            os.environ.get('APCA_API_KEY_ID'), 
-            os.environ.get('APCA_API_SECRET_KEY'),
-            paper=bool(os.environ.get('APCA_PAPER',True))
+            self.get_tool_config('APCA_API_KEY_ID'), 
+            self.get_tool_config('APCA_API_SECRET_KEY'),
+            paper=bool(self.get_tool_config('APCA_PAPER'))
         )
 
         self.current_prices = {}
@@ -257,3 +257,24 @@ class Trader():
         self.active = False  # Set flag to False to stop threads
         for thread in self.threads:  # Wait for all threads to finish
             thread.join()
+
+
+    def get_tool_config(self, key: str) -> Any:
+        """
+        This method returns the value of an environment variable.
+        """
+        return os.environ.get(key)
+
+
+    def get_tool_config(self, key: str) -> Any:
+        """
+        This method returns the value of an environment variable.
+        """
+        return os.environ.get(key)
+
+
+    def get_tool_config(self, key: str) -> Any:
+        """
+        This method returns the value of an environmentarian key.
+        """
+        return os.environ.get(key)

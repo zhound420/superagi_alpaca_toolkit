@@ -1,21 +1,21 @@
 
-from pydantic import BaseModel, Field
+from pydantic import BaseTool, Field
 from typing import Type, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
 
-class AlpacaGetDayPercentChangeInput(BaseModel):
+class AlpacaGetDayPercentChangeInput(BaseTool):
     """
     This is the AlpacaGetDayPercentChangeInput class.
     """
     symbol: str = Field(..., description="Symbol of the stock to get day percent change for")
 
-class AlpacaGetDayPercentChangeTool(BaseModel):
+class AlpacaGetDayPercentChangeTool(BaseTool):
     """
     This is the AlpacaGetDayPercentChangeTool class.
     """
     name: str = "Alpaca Get Day Percent Change Tool"
-    args_schema: Type[BaseModel] = AlpacaGetDayPercentChangeInput
+    args_schema: Type[BaseTool] = AlpacaGetDayPercentChangeInput
     description: str = "Use Alpaca API to get day percent change of a stock."
     agent_id: int = None
 
@@ -24,8 +24,29 @@ class AlpacaGetDayPercentChangeTool(BaseModel):
         This is the _execute method of the AlpacaGetDayPercentChangeTool class.
         """
         trading_client =  TradingClient(
-            os.environ.get('APCA_API_KEY_ID'), 
-            os.environ.get('APCA_API_SECRET_KEY'),
-            paper=bool(os.environ.get('APCA_PAPER',True))
+            self.get_tool_config('APCA_API_KEY_ID'), 
+            self.get_tool_config('APCA_API_SECRET_KEY'),
+            paper=bool(self.get_tool_config('APCA_PAPER'))
         )
         return trading_client.get_day_percent_change(symbol)
+
+
+    def get_tool_config(self, key: str) -> Any:
+        """
+        This method returns the value of an environment variable.
+        """
+        return os.environ.get(key)
+
+
+    def get_tool_config(self, key: str) -> Any:
+        """
+        This method returns the value of an environment variable.
+        """
+        return os.environ.get(key)
+
+
+    def get_tool_config(self, key: str) -> Any:
+        """
+        This method returns the value of an environmentarian key.
+        """
+        return os.environ.get(key)
