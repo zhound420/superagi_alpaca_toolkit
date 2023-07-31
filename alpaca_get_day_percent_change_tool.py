@@ -1,5 +1,5 @@
 
-from typing import Type, Optional
+from typing import Type, Any, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
 
