@@ -1,6 +1,8 @@
+from pydantic import BaseTool, Field
 from typing import Type, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
+from typing import Any, List, Type
 
 class AlpacaGetPositionsTool(BaseTool):
     """
@@ -22,6 +24,11 @@ class AlpacaGetPositionsTool(BaseTool):
         )
         return trading_client.get_positions()
 
+    def get_tool_config(self, key: str) -> Any:
+        """
+        This method returns the value of an environment variable.
+        """
+        return os.environ.get(key)
 
     def get_tool_config(self, key: str) -> Any:
         """
@@ -29,16 +36,8 @@ class AlpacaGetPositionsTool(BaseTool):
         """
         return os.environ.get(key)
 
-
     def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environmentarian key.
         """
         return os.environ.get(key)
