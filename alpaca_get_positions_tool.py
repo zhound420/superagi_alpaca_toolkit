@@ -1,42 +1,27 @@
-from typing import Type, Any, Optional
-from superagi.tools.base_tool import BaseTool
-from alpaca.trading.client import TradingClient
-from typing import Any, List, Type
+
+from typing import Any, Dict, List, Optional
+
+from alpaca_trade_api import REST
+from alpaca_trade_api.entity import Position
+
+from superagi.common.toolkit import BaseToolkit, BaseTool
+from superagi.common.toolkit.tool_input import BaseToolInput
+
+
+class AlpacaGetPositionsInput(BaseToolInput):
+    pass
+
 
 class AlpacaGetPositionsTool(BaseTool):
-    """
-    This is the AlpacaGetPositionsTool class.
-    """
-    name: str = "Alpaca Get Positions Tool"
-    args_schema: Type[BaseTool] = BaseTool  # This tool doesn't require any input parameters
-    description: str = "Use Alpaca API to get positions."
-    agent_id: int = None
 
-    def _execute(self):
-        """
-        This is the _execute method of the AlpacaGetPositionsTool class.
-        """
-        trading_client =  TradingClient(
-            self.get_tool_config('APCA_API_KEY_ID'), 
-            self.get_tool_config('APCA_API_SECRET_KEY'),
-            paper=bool(self.get_tool_config('APCA_PAPER'))
-        )
-        return trading_client.get_positions()
+    def __init__(self, toolkit: 'BaseToolkit', config: Optional[Dict[str, Any]] = None) -> None:
+        super().__init__(toolkit, AlpacaGetPositionsInput, config)
 
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
+    def execute(self, data: Dict[str, Any]) -> Any:
+        api = REST(self.toolkit.get_tool_config('APCA-API-KEY-ID'),
+                   self.toolkit.get_tool_config('APCA-API-SECRET-KEY'),
+                   base_url=self.toolkit.get_tool_config('APCA-API-BASE-URL'))
 
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
+        positions: List[Position] = api.list_positions()
 
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
+        return positions
