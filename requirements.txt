@@ -13,3 +13,4 @@ alpaca-trade-api
 pydantic
 pytest
 pandas
+alpaca
