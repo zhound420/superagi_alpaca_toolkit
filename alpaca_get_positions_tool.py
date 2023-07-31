@@ -1,14 +1,12 @@
-
 from typing import Any, Dict, List, Optional
 
 from alpaca_trade_api import REST
 from alpaca_trade_api.entity import Position
 
 from superagi.tools.base_tool import BaseToolkit, BaseTool
-from superagi.tools.base_tool import BaseToolInput
+from pydantic import BaseModel
 
-
-class AlpacaGetPositionsInput(BaseToolInput):
+class AlpacaGetPositionsInput(BaseModel):
     pass
 
 
