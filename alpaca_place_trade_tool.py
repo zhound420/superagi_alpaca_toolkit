@@ -1,3 +1,4 @@
+from superagi.tools.base_tool import BaseTool
 import alpaca_trade_api as tradeapi
 
 class AlpacaPlaceTradeTool(BaseTool):
