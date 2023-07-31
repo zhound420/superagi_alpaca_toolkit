@@ -1,6 +1,7 @@
 
 from typing import Type, Optional
 from superagi.tools.base_tool import BaseTool
+from pydantic import Field
 from alpaca.trading.client import TradingClient
 
 class AlpacaCheckPriceChangesInput(BaseTool):
@@ -33,19 +34,5 @@ class AlpacaCheckPriceChangesTool(BaseTool):
     def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environmentarian key.
         """
         return os.environ.get(key)
