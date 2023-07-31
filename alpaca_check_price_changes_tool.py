@@ -1,7 +1,7 @@
 from typing import Type, Optional, Any
 from superagi.tools.base_tool import BaseTool
 from pydantic import Field
-from alpaca_trade_api.trading.client import TradingClient
+from alpaca_trade_api import REST
 
 class AlpacaCheckPriceChangesInput(BaseTool):
     """
@@ -22,7 +22,7 @@ class AlpacaCheckPriceChangesTool(BaseTool):
         """
         This is the _execute method of the AlpacaCheckPriceChangesTool class.
         """
-        trading_client =  TradingClient(
+        trading_client =  REST(
             self.get_tool_config('APCA_API_KEY_ID'), 
             self.get_tool_config('APCA_API_SECRET_KEY'),
             paper=bool(self.get_tool_config('APCA_PAPER'))
