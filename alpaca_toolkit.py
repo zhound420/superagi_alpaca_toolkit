@@ -1,6 +1,6 @@
 from abc import ABC
 from typing import Any, Dict, List
-from pydantic import BaseTool
+from superagi.tools.base_tool import BaseTool
 from superagi.tools.base_tool import BaseToolkit, BaseTool
 
 class AlpacaToolkit(BaseToolkit, ABC):
@@ -18,21 +18,11 @@ class AlpacaToolkit(BaseToolkit, ABC):
         # List of environment variable keys should be updated as per requirements
         return []
 
-
-
-
-
-
-
-
+    def get_tool_config(self, key: str) -> Any:
+        """
+        This method returns the value of an environment variable.
+        """
+        return os.environ.get(key)
 
 tools = []  # List of tools should be updated to include all the tool instances
 toolkit = AlpacaToolkit()
-
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environmentarian key.
-        """
-        return os.environ.get(key)
