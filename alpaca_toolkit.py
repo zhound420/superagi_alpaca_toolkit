@@ -1,6 +1,5 @@
 from abc import ABC
 from typing import Any, Dict, List
-from superagi.tools.base_tool import BaseTool
 from superagi.tools.base_tool import BaseToolkit, BaseTool
 
 class AlpacaToolkit(BaseToolkit, ABC):

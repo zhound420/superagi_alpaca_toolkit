@@ -2,10 +2,10 @@ import os,re
 from typing import Any
 from alpaca_sdk.alpaca_trade_api.rest import REST, TimeFrame
 from alpaca_sdk.alpaca_trade_api.common import URL
-from alpaca.trading.client import TradingClient
-from alpaca.trading.requests import MarketOrderRequest
-from alpaca.trading.enums import OrderSide, TimeInForce, OrderType
-from alpaca.trading.models import Position
+from alpaca_trade_api.trading.client import TradingClient
+from alpaca_trade_api.requests import MarketOrderRequest
+from alpaca_trade_api.enums import OrderSide, TimeInForce, OrderType
+from alpaca_trade_api.models import Position
 import requests
 from collections import deque
 

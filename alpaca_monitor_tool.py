@@ -1,7 +1,7 @@
 
 from typing import Type, Any, Optional
 from superagi.tools.base_tool import BaseTool
-from alpaca.trading.client import TradingClient
+from alpaca_trade_api.trading.client import TradingClient
 
 class AlpacaMonitorInput(BaseTool):
     """
