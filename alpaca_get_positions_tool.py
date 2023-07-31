@@ -4,8 +4,8 @@ from typing import Any, Dict, List, Optional
 from alpaca_trade_api import REST
 from alpaca_trade_api.entity import Position
 
-from superagi.common.toolkit import BaseToolkit, BaseTool
-from superagi.common.toolkit.tool_input import BaseToolInput
+from superagi.tools.base_tool import BaseToolkit, BaseTool
+from superagi.tools.base_tool import BaseToolInput
 
 
 class AlpacaGetPositionsInput(BaseToolInput):
