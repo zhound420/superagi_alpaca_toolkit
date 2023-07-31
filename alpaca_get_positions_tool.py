@@ -1,4 +1,3 @@
-from pydantic import BaseTool, Field
 from typing import Type, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
