@@ -11,9 +11,9 @@ class AlpacaToolkit(BaseToolkit):
         return [AlpacaGetAccountInformationTool(), AlpacaGetPositionsTool(), AlpacaMonitorTool()]
 
     def get_env_keys(self) -> List[str]:
-    return [
+        return [
         "APCA_API_KEY_ID",
         "APCA_API_SECRET_KEY",
         "APCA_PAPER"
-    ]
+        ]
 
