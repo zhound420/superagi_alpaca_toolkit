@@ -9,7 +9,7 @@ from alpaca_trade_api.rest import Order as MarketOrderRequest
 from alpaca_trade_api.entity import Position
 from typing import Optional
 
-from superagi.tools import BaseTool, ToolInput, ToolOutput
+from superagi.tools.base_tool import BaseTool, ToolInput, ToolOutput
 from pydantic import BaseModel
 
 from alpaca_trade_api.rest import RES
