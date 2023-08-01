@@ -153,8 +153,11 @@ class Trader():
             type=order_type_req,
             time_in_force=time_in_force
         )
-        order=self.trading_client.submit_order(order_data)
-        return str(order)
+        try:
+            order=self.trading_client.submit_order(order_data)
+            return str(order)
+        except Exception as e:
+            return {"error": str(e)}
 
 
     def get_positions_info(self):
@@ -298,19 +301,5 @@ class Trader():
     def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environmentarian key.
         """
         return os.environ.get(key)

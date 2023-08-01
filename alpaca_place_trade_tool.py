@@ -22,4 +22,7 @@ class AlpacaPlaceTradeTool(BaseTool):
             self.get_tool_config('APCA_API_SECRET_KEY'),
             base_url='https://paper-api.alpaca.markets'
         )
-        return api.submit_order(symbol, qty, side, 'market', 'gtc')
+        try:
+            return api.submit_order(symbol, qty, side, 'market', 'gtc')
+        except Exception as e:
+            return {"error": str(e)}

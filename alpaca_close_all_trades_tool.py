@@ -8,7 +8,7 @@ class AlpacaCloseAllTradesTool(BaseTool):
     This is the AlpacaCloseAllTradesTool class.
     """
     name: str = "Alpaca Close All Trades Tool"
-    args_schema: Type[BaseTool] = BaseTool  # This tool doesn't require any input parameters
+    args_schema: Optional[Type[BaseModel]] = None  # This tool doesn't require any input parameters
     description: str = "Use Alpaca API to close all trades."
     agent_id: int = None
 
@@ -21,25 +21,14 @@ class AlpacaCloseAllTradesTool(BaseTool):
             self.get_tool_config('APCA_API_SECRET_KEY'),
             paper=bool(self.get_tool_config('APCA_PAPER'))
         )
-        return trading_client.close_all_trades()
+        try:
+            return trading_client.close_all_trades()
+        except Exception as e:
+            return {"error": str(e)}
 
 
     def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environmentarian key.
         """
         return os.environ.get(key)
