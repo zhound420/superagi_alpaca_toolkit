@@ -9,7 +9,7 @@ yfinance
 beautifulsoup4
 python-dateutil
 datapackage
-alpaca-trade-api
+alpaca-trade-api[stream]
 pydantic
 pytest
 pandas
