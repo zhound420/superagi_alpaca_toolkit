@@ -36,17 +36,4 @@ class AlpacaGetDayPercentChangeTool(BaseTool):
         This method returns the value of an environment variable.
         """
         return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environmentarian key.
-        """
-        return os.environ.get(key)
+    
