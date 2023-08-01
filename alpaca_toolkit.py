@@ -1,3 +1,4 @@
+from typing import List
 from superagi.tools.base_tool import BaseToolkit
 from alpaca_get_account_information_tool import AlpacaGetAccountInformationTool
 from alpaca_get_positions_tool import AlpacaGetPositionsTool
