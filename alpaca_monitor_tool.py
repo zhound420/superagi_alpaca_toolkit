@@ -1,52 +1,38 @@
+from typing import Any, Type
+from pydantic import BaseModel, Field
+from superagi.tools.base_tool import BaseTool
+from alpaca_trade_api import StreamConn
+from alpaca_trade_api.common import URL
+import asyncio
+import logging
 
-from pydantic import Field
-from typing import Type, Any, Optional
-from superagi.tools.base_tool import BaseModel
-from alpaca_trade_api import REST as TradingClient
+class AlpacaMonitorInput(BaseModel):
+    api_key: str = Field(..., description="API Key")
+    secret_key: str = Field(..., description="Secret Key")
+    base_url: str = Field(..., description="Base URL")
+    symbols: str = Field(..., description="Symbols to monitor")
 
-class AlpacaMonitorInput(BaseTool):
-    """
-    This is the AlpacaMonitorInput class.
-    """
-    symbol: str = Field(..., description="Symbol of the stock to monitor")
+class AlpacaMonitorOutput(BaseModel):
+    message: str = Field(..., description="Message from the monitor")
 
 class AlpacaMonitorTool(BaseTool):
-    """
-    This is the AlpacaMonitorTool class.
-    """
-    name: str = "Alpaca Monitor Tool"
-    args_schema: Type[BaseTool] = AlpacaMonitorInput
-    description: str = "Use Alpaca API to monitor a stock."
-    agent_id: int = None
+    name: str = "AlpacaMonitorTool"
+    args_schema: Type[BaseModel] = AlpacaMonitorInput
+    output_schema: Type[BaseModel] = AlpacaMonitorOutput
 
-    def _execute(self):
-        """
-        This is the _execute method of the AlpacaMonitorTool class.
-        """
-        trading_client =  TradingClient(
-            self.get_tool_config('APCA_API_KEY_ID'), 
-            self.get_tool_config('APCA_API_SECRET_KEY'),
-            paper=bool(self.get_tool_config('APCA_PAPER'))
-        )
-        return trading_client.monitor(symbol)
+    async def _monitor(self, conn, channel, symbols):
+        @conn.on(r'^AM\..+$')
+        async def on_bars(conn, channel, bar):
+            logging.info('bars', bar)
 
+        @conn.on(r'^trade_updates$')
+        async def on_trade_updates(conn, channel, trade):
+            logging.info('trade', trade)
 
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
+        await conn.subscribe(['trade_updates', 'AM.' + symbols])
 
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environmentarian key.
-        """
-        return os.environ.get(key)
+    def _execute(self, params: AlpacaMonitorInput) -> AlpacaMonitorOutput:
+        api = StreamConn(params.api_key, params.secret_key, URL(params.base_url))
+        loop = asyncio.get_event_loop()
+        loop.run_until_complete(self._monitor(api, 'trade_updates', params.symbols))
+        return AlpacaMonitorOutput(message="Monitoring started for symbols: " + params.symbols)
