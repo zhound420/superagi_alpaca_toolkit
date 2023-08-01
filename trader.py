@@ -5,7 +5,7 @@ from alpaca_trade_api.rest import REST
 from alpaca_trade_api.common import URL
 from alpaca_trade_api import REST as TradingClient
 from alpaca_trade_api.rest import Order as MarketOrderRequest
-from alpaca_trade_api.enums import OrderSide, TimeInForce, OrderType
+
 from alpaca_trade_api.models import Position
 from typing import Optional
 
