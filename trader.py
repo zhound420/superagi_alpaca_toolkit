@@ -6,7 +6,7 @@ from alpaca_trade_api.common import URL
 from alpaca_trade_api import REST as TradingClient
 from alpaca_trade_api.rest import Order as MarketOrderRequest
 
-from alpaca_trade_api.models import Position
+from alpaca_trade_api.entity import Position
 from typing import Optional
 
 from superagi.tools import BaseTool, ToolInput, ToolOutput
