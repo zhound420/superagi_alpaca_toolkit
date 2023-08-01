@@ -1,7 +1,7 @@
 from typing import Any, Type
 from pydantic import BaseModel, Field
 from superagi.tools.base_tool import BaseTool
-from alpaca_trade_api import tradeapi
+from alpaca_trade_api.stream import Stream
 from alpaca_trade_api.common import URL
 import asyncio
 import logging
@@ -32,7 +32,7 @@ class AlpacaMonitorTool(BaseTool):
         await conn.subscribe(['trade_updates', 'AM.' + symbols])
 
     def _execute(self, params: AlpacaMonitorInput) -> AlpacaMonitorOutput:
-        conn = tradeapi.stream.Stream(
+        conn = Stream(
             key_id=params.api_key,
             secret_key=params.secret_key,
             base_url=params.base_url,
