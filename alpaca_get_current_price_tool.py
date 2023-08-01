@@ -15,7 +15,7 @@ class AlpacaGetCurrentPriceTool(BaseTool):
     This is the AlpacaGetCurrentPriceTool class.
     """
     name: str = "Alpaca Get Current Price Tool"
-    args_schema: Type[BaseTool] = AlpacaGetCurrentPriceInput
+    args_schema: Type[AlpacaGetCurrentPriceInput] = AlpacaGetCurrentPriceInput
     description: str = "Use Alpaca API to get current price of a stock."
     agent_id: int = None
 

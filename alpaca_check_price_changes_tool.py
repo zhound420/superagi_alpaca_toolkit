@@ -14,7 +14,7 @@ class AlpacaCheckPriceChangesTool(BaseTool):
     This is the AlpacaCheckPriceChangesTool class.
     """
     name: str = "Alpaca Check Price Changes Tool"
-    args_schema: Type[BaseTool] = AlpacaCheckPriceChangesInput
+    args_schema: Type[AlpacaCheckPriceChangesInput] = AlpacaCheckPriceChangesInput
     description: str = "Use Alpaca API to check price changes for a stock."
     agent_id: int = None
 

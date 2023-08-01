@@ -1,3 +1,5 @@
+args_schema: Type[BaseModel] = AlpacaGetPositionsInput
+
 from typing import Any, Dict, List, Optional
 
 from alpaca_trade_api import REST
@@ -15,7 +17,7 @@ class AlpacaGetPositionsTool(BaseTool):
     def __init__(self, toolkit: 'BaseToolkit', config: Optional[Dict[str, Any]] = None) -> None:
         super().__init__(toolkit, AlpacaGetPositionsInput, config)
 
-    def execute(self, data: Dict[str, Any]) -> Any:
+    def _execute(self, data: Dict[str, Any]) -> Any:
         api = REST(self.toolkit.get_tool_config('APCA-API-KEY-ID'),
                    self.toolkit.get_tool_config('APCA-API-SECRET-KEY'),
                    base_url=self.toolkit.get_tool_config('APCA-API-BASE-URL'))

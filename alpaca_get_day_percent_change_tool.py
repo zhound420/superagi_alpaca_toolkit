@@ -15,7 +15,7 @@ class AlpacaGetDayPercentChangeTool(BaseTool):
     This is the AlpacaGetDayPercentChangeTool class.
     """
     name: str = "Alpaca Get Day Percent Change Tool"
-    args_schema: Type[BaseTool] = AlpacaGetDayPercentChangeInput
+    args_schema: Type[AlpacaGetDayPercentChangeInput] = AlpacaGetDayPercentChangeInput
     description: str = "Use Alpaca API to get day percent change of a stock."
     agent_id: int = None
 
