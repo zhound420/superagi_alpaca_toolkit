@@ -1,27 +1,20 @@
-from abc import ABC
-from typing import Any, Dict, List
-from superagi.tools.base_tool import BaseToolkit, BaseTool
+from typing import List, Type
+from superagi.tools.base_tool import BaseTool, BaseToolkit
+from .alpaca_get_account_tool import AlpacaGetAccountTool
+from .alpaca_get_positions_tool import AlpacaGetPositionsTool
+from .alpaca_close_trade_tool import AlpacaCloseTradeTool
+from .alpaca_monitor_tool import AlpacaMonitorTool
+import os
 
-class AlpacaToolkit(BaseToolkit, ABC):
-    """
-    This is the AlpacaToolkit class.
-    """
+class AlpacaToolkit(BaseToolkit):
     name: str = "AlpacaToolkit"
-    description: str = "Toolkit for Alpaca trading tools."
+    description: str = "Toolkit for interacting with Alpaca API"
 
-    def get_tools(self) -> List[BaseTool]:
-        # List of tools should be updated to include all the tool instances
-        return []
+    def get_tools(self) -> List[Type[BaseTool]]:
+        return [AlpacaGetAccountTool(), AlpacaGetPositionsTool(), AlpacaCloseTradeTool(), AlpacaMonitorTool()]
 
     def get_env_keys(self) -> List[str]:
-        # List of environment variable keys should be updated as per requirements
-        return []
+        return ['API_KEY', 'SECRET_KEY', 'BASE_URL']
 
-    def get_tool_config(self, key: str) -> Any:
-        """
-        This method returns the value of an environment variable.
-        """
-        return os.environ.get(key)
-
-tools = []  # List of tools should be updated to include all the tool instances
-toolkit = AlpacaToolkit()
+    def get_tool_config(self, key):
+        return os.getenv(key)
