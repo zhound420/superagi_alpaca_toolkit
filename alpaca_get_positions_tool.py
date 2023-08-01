@@ -1,27 +1,22 @@
-args_schema: Type[BaseModel] = AlpacaGetPositionsInput
-
-from typing import Any, Dict, List, Optional
-
-from alpaca_trade_api import REST
-from alpaca_trade_api.entity import Position
-
-from superagi.tools.base_tool import BaseToolkit, BaseTool
-from pydantic import BaseModel
+from typing import Any, Type
+from pydantic import BaseModel, Field
+from superagi.tools.base_tool import BaseTool
+from alpaca_trade_api import REST as TradingClient
 
 class AlpacaGetPositionsInput(BaseModel):
-    pass
+    api_key: str = Field(..., description="API Key")
+    secret_key: str = Field(..., description="Secret Key")
+    base_url: str = Field(..., description="Base URL")
 
+class AlpacaGetPositionsOutput(BaseModel):
+    positions: list = Field(..., description="List of positions")
 
 class AlpacaGetPositionsTool(BaseTool):
+    name: str = "AlpacaGetPositionsTool"
+    args_schema: Type[BaseModel] = AlpacaGetPositionsInput
+    output_schema: Type[BaseModel] = AlpacaGetPositionsOutput
 
-    def __init__(self, toolkit: 'BaseToolkit', config: Optional[Dict[str, Any]] = None) -> None:
-        super().__init__(toolkit, AlpacaGetPositionsInput, config)
-
-    def _execute(self, data: Dict[str, Any]) -> Any:
-        api = REST(self.toolkit.get_tool_config('APCA-API-KEY-ID'),
-                   self.toolkit.get_tool_config('APCA-API-SECRET-KEY'),
-                   base_url=self.toolkit.get_tool_config('APCA-API-BASE-URL'))
-
-        positions: List[Position] = api.list_positions()
-
-        return positions
+    def _execute(self, params: AlpacaGetPositionsInput) -> AlpacaGetPositionsOutput:
+        api = TradingClient(params.api_key, params.secret_key, params.base_url)
+        positions = api.list_positions()
+        return AlpacaGetPositionsOutput(positions=[position._raw for position in positions])
