@@ -1,42 +1,32 @@
-import os,re
-from typing import Any
-from alpaca_trade_api.rest import REST
-
-from alpaca_trade_api.common import URL
+import os
+from typing import Any, Optional, Type
+from pydantic import BaseModel, Field
 from alpaca_trade_api import REST as TradingClient
-from alpaca_trade_api.rest import Order as MarketOrderRequest
-
 from alpaca_trade_api.entity import Position
-from typing import Optional
+from superagi.tools.base_tool import BaseTool
 
-from superagi.tools.base_tool import BaseTool, ToolInput, ToolOutput
-from pydantic import BaseModel
+class AlpacaTraderToolInput(BaseModel):
+    api_key: str = Field(..., description="API Key")
+    secret_key: str = Field(..., description="Secret Key")
+    base_url: str = Field(..., description="Base URL")
+    symbol: str = Field(..., description="Symbol to be traded")
+    qty: int = Field(..., description="Quantity to be traded")
+    time_in_force: str = Field(..., description="Time in Force")
+    type: str = Field(..., description="Type of order")
+    side: str = Field(..., description="Side of order")
+    limit_price: Optional[float] = Field(None, description="Limit price for order")
+    stop_price: Optional[float] = Field(None, description="Stop price for order")
 
-from alpaca_trade_api.rest import RES
-
+class AlpacaTraderToolOutput(BaseModel):
+    response: dict = Field(..., description="Response from the trade")
 
 class AlpacaTraderTool(BaseTool):
+    name: str = "AlpacaTraderTool"
+    args_schema: Type[BaseModel] = AlpacaTraderToolInput
+    output_schema: Type[BaseModel] = AlpacaTraderToolOutput
 
-    class Input(ToolInput):
-        api_key: str
-        secret_key: str
-        base_url: str
-        symbol: str
-        qty: int
-        time_in_force: str
-        type: str
-        side: str
-        limit_price: Optional[float] = None
-        stop_price: Optional[float] = None
-
-    class Output(ToolOutput):
-        response: dict
-
-    args_schema: type[ToolInput] = Input
-    output_schema: type[ToolOutput] = Output
-
-    async def execute(self, params: Input) -> Output:
-        api = REST(params.api_key, params.secret_key, params.base_url)
+    def _execute(self, params: AlpacaTraderToolInput) -> AlpacaTraderToolOutput:
+        api = TradingClient(params.api_key, params.secret_key, params.base_url)
         response = api.submit_order(
             symbol=params.symbol,
             qty=params.qty,
@@ -46,8 +36,9 @@ class AlpacaTraderTool(BaseTool):
             limit_price=params.limit_price,
             stop_price=params.stop_price,
         )
-        return self.Output(response=response._raw)
+        return AlpacaTraderToolOutput(response=response._raw)
 
+# Rest of the Trader class definition goes here
 import requests
 from collections import deque
 
