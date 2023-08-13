@@ -1,7 +1,7 @@
 from typing import Any, Type
 from pydantic import BaseModel, Field
 from superagi.tools.base_tool import BaseTool
-from alpaca_trade_api.stream import Stream
+from alpaca.trading.stream import TradingStream
 from alpaca_trade_api.common import URL
 import asyncio
 import logging
