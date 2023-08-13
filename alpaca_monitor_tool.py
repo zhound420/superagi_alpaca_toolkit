@@ -1,24 +1,15 @@
-
-from datetime import datetime
-from superagi.helper.tool_helper import BaseTool
-from superagi.tools.external_tools.superagi_alpaca_toolkit.alpaca_toolkit import AlpacaToolkit
-from alpaca import AlpacaRest, AlpacaStream
+import alpaca_trade_api as tradeapi
+from superagi.tools.tool_interface import BaseTool
 
 class AlpacaMonitorTool(BaseTool):
-    def __init__(self, toolkit: AlpacaToolkit):
-        self.alpaca = toolkit.alpaca
+    __tool_name__ = "Alpaca Monitor Tool"
+    __tool_description__ = "Monitors Alpaca trades"
+    __tool_version__ = "1.0.0"
 
-    async def stream(self):
-        async def on_trade_update(data):
-            print(data)
+    def __init__(self):
+        pass
 
-        stream = AlpacaStream(
-            key_id=self.alpaca.key_id,
-            secret_key=self.alpaca.secret_key,
-            base_url=self.alpaca.base_url,
-            use_polygon=self.alpaca.use_polygon,
-        )
-
-        await stream.subscribe_trade_updates(on_trade_update)
-        await stream.consume()
-
+    def execute(self, params):
+        api = tradeapi.REST(params["api_key"], params["secret_key"], base_url=params["base_url"])
+        account = api.get_account()
+        return {"status": account.status}
