@@ -2,7 +2,7 @@ from typing import Any, Type
 from pydantic import BaseModel, Field
 from superagi.tools.base_tool import BaseTool
 import asyncio
-#from alpaca_trade_api.stream2 import StreamConn
+from alpaca.stream import StreamConn
 import logging
 
 class AlpacaMonitorInput(BaseModel):
