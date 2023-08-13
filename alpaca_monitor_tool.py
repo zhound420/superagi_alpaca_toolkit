@@ -1,5 +1,5 @@
 from alpaca.trading import TradingClient
-from superagi.tools.tool_interface import BaseTool
+from superagi.tools.base_tool import BaseTool
 
 class AlpacaMonitorTool(BaseTool):
     __tool_name__ = "Alpaca Monitor Tool"
