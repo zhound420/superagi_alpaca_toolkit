@@ -1,42 +1,44 @@
-from typing import Any, Type
-from pydantic import BaseModel, Field
-from superagi.tools.base_tool import BaseTool
-import asyncio
-from alpaca.stream import StreamConn
-import logging
 
-class AlpacaMonitorInput(BaseModel):
-    api_key: str = Field(..., description="API Key")
-    secret_key: str = Field(..., description="Secret Key")
-    base_url: str = Field(..., description="Base URL")
-    symbols: str = Field(..., description="Symbols to monitor")
+from typing import Any, Dict, List
 
-class AlpacaMonitorOutput(BaseModel):
-    message: str = Field(..., description="Message from the monitor")
+from alpaca import rest
+from alpaca.entity import Account, Order
 
-class AlpacaMonitorTool(BaseTool):
-    name: str = "AlpacaMonitorTool"
-    args_schema: Type[BaseModel] = AlpacaMonitorInput
-    output_schema: Type[BaseModel] = AlpacaMonitorOutput
+from superagi.tools.toolkit import BaseToolkit
 
-    async def _monitor(self, conn, channel, symbols):
-        @conn.on(r'^AM\..+$')
-        async def on_bars(conn, channel, bar):
-            logging.info('bars', bar)
 
-        @conn.on(r'^trade_updates$')
-        async def on_trade_updates(conn, channel, trade):
-            logging.info('trade', trade)
+class AlpacaMonitorTool(BaseToolkit):
+    TOOL_NAME = "Alpaca Monitor Tool"
+    TOOL_ID = "alpaca_monitor_tool"
+    TOOL_DESCRIPTION = "A tool to monitor Alpaca trades in real-time."
+    TOOL_INPUTS = []
+    TOOL_OUTPUTS = ['trade_updates']
 
-        await conn.subscribe(['trade_updates', 'AM.' + symbols])
+    def __init__(self, api_key: str, secret_key: str, base_url: str = 'https://paper-api.alpaca.markets'):
+        self.api_key = api_key
+        self.secret_key = secret_key
+        self.base_url = base_url
+        self.client = rest.REST(key_id=self.api_key, secret_key=self.secret_key, base_url=self.base_url)
 
-    def _execute(self, params: AlpacaMonitorInput) -> AlpacaMonitorOutput:
-        conn = Stream(
-            key_id=params.api_key,
-            secret_key=params.secret_key,
-            base_url=params.base_url,
-            data_feed='iex'
-        )
-        loop = asyncio.get_event_loop()
-        loop.run_until_complete(self._monitor(conn, 'trade_updates', params.symbols))
-        return AlpacaMonitorOutput(message="Monitoring started for symbols: " + params.symbols)
+    def get_account(self) -> Account:
+        return self.client.get_account()
+
+    def list_orders(self, status: str = 'open', limit: int = 50) -> List[Order]:
+        return self.client.list_orders(status=status, limit=limit)
+
+    def execute(self, input_data: Dict[str, Any]) -> Dict[str, Any]:
+        # For now, just returning the account details as an example.
+        # The WebSocket streaming will be implemented separately.
+        account = self.get_account()
+        return {
+            'trade_updates': {
+                'account': {
+                    'id': account.id,
+                    'status': account.status,
+                    'cash': account.cash,
+                    'portfolio_value': account.portfolio_value,
+                    'buying_power': account.buying_power
+                }
+            }
+        }
+
