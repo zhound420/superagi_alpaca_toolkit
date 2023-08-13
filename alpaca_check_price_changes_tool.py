@@ -1,7 +1,7 @@
 from typing import Type, Optional, Any
 from superagi.tools.base_tool import BaseTool
 from pydantic import Field
-from alpaca_trade_api import REST
+from alpaca.trading.client import TradingClient as REST
 
 class AlpacaCheckPriceChangesInput(BaseTool):
     """
