@@ -6,6 +6,8 @@ from alpaca_get_positions_tool import AlpacaGetPositionsTool
 from alpaca_monitor_tool import AlpacaMonitorTool
 
 class AlpacaToolkit(BaseToolkit, ABC):
+    name: str = "Alpaca Toolkit"
+    description: str = "Toolkit for Alpaca Trading APIs"
     name = "Alpaca Toolkit"
     description = "Toolkit for interacting with Alpaca API"
 
