@@ -1,6 +1,7 @@
 from typing import Type, Any
 import os
 from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading import TradingClient
 class AlpacaCloseTradeInput(BaseModel):

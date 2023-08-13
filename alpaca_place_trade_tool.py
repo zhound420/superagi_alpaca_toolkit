@@ -1,6 +1,7 @@
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient as tradeapi
 from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field
 from typing import Type
 
 class AlpacaPlaceTradeInput(BaseModel):
