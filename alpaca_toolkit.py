@@ -1,6 +1,5 @@
 from typing import List
 from fastapi import HTTPException
-from alpaca_trade_api import REST, StreamConn
 from superagi.models.tool_models import Toolkit, Tool
 from superagi.db.crud.tool_crud import create_toolkit, get_toolkits, get_tools_for_toolkit, create_tool
 from superagi.tools.tool_interface import BaseToolkit
