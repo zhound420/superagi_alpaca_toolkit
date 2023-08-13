@@ -2,10 +2,10 @@ from alpaca.trading import TradingClient
 from superagi.tools.base_tool import BaseTool
 
 class AlpacaMonitorTool(BaseTool):
-    __tool_name__ = "Alpaca Monitor Tool"
-    __tool_description__ = "Monitors Alpaca trades"
-    __tool_version__ = "1.0.0"
-
+    name: str = "Alpaca Monitor Tool"
+    description: str = "Monitors Alpaca trades"
+    toolkit_version: str = "1.0.0"
+    
     def __init__(self):
         pass
 
