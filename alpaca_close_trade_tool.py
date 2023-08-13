@@ -15,11 +15,11 @@ class AlpacaCloseTradeTool(BaseTool):
     This is the AlpacaCloseTradeTool class.
     """
     name: str = "Alpaca Close Trade Tool"
-    args_schema: Type[BaseTool] = AlpacaCloseTradeInput
+    args_schema: Type[BaseModel] = AlpacaCloseTradeInput
     description: str = "Use Alpaca API to close a trade."
     agent_id: int = None
 
-    def _execute(self):
+    def _execute(self, symbol: str, qty: int):
         """
         This is the _execute method of the AlpacaCloseTradeTool class.
         """

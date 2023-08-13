@@ -3,7 +3,7 @@ from superagi.tools.base_tool import BaseTool
 from pydantic import Field
 from alpaca.trading.client import TradingClient as REST
 
-class AlpacaCheckPriceChangesInput(BaseTool):
+class AlpacaCheckPriceChangesInput(BaseModel):
     """
     This is the AlpacaCheckPriceChangesInput class.
     """
@@ -18,7 +18,7 @@ class AlpacaCheckPriceChangesTool(BaseTool):
     description: str = "Use Alpaca API to check price changes for a stock."
     agent_id: int = None
 
-    def _execute(self):
+    def _execute(self, symbol: str):
         """
         This is the _execute method of the AlpacaCheckPriceChangesTool class.
         """

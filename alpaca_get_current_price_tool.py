@@ -4,7 +4,7 @@ from typing import Type, Any, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading import TradingClient
 
-class AlpacaGetCurrentPriceInput(BaseTool):
+class AlpacaGetCurrentPriceInput(BaseModel):
     """
     This is the AlpacaGetCurrentPriceInput class.
     """
@@ -19,7 +19,7 @@ class AlpacaGetCurrentPriceTool(BaseTool):
     description: str = "Use Alpaca API to get current price of a stock."
     agent_id: int = None
 
-    def _execute(self):
+    def _execute(self, symbol: str):
         """
         This is the _execute method of the AlpacaGetCurrentPriceTool class.
         """

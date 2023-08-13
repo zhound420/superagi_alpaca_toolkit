@@ -3,7 +3,7 @@ import os
 from pydantic import Field
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading import TradingClient
-class AlpacaGetDayPercentChangeInput(BaseTool):
+class AlpacaGetDayPercentChangeInput(BaseModel):
     """
     This is the AlpacaGetDayPercentChangeInput class.
     """
@@ -18,7 +18,7 @@ class AlpacaGetDayPercentChangeTool(BaseTool):
     description: str = "Use Alpaca API to get day percent change of a stock."
     agent_id: int = None
 
-    def _execute(self):
+    def _execute(self, symbol: str):
         """
         This is the _execute method of the AlpacaGetDayPercentChangeTool class.
         """
