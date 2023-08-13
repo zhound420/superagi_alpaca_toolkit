@@ -5,9 +5,9 @@ from superagi.tools.base_tool import BaseToolkit
 from alpaca_monitor_tool import AlpacaMonitorTool
 
 class AlpacaToolkit(BaseToolkit, ABC):
-    __toolkit_name__ = "Alpaca Toolkit"
-    __toolkit_description__ = "Toolkit for Alpaca trading platform"
-    __toolkit_version__ = "1.0.0"
+        name: str = "Alpaca Toolkit"
+        description: str = "Toolkit for Alpaca trading platform"
+        toolkit_version: str = "1.0.0"
 
     def __init__(self, session, organisation):
         self.session = session
