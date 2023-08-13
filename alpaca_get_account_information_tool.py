@@ -2,8 +2,7 @@ from typing import Type, Any
 import os
 from pydantic import BaseModel
 from superagi.tools.base_tool import BaseTool
-from alpaca_trade_api import REST
-
+from alpaca.trading.client import TradingClient
 class AlpacaGetAccountInformationToolInput(BaseModel):
     pass
 
