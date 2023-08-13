@@ -1,36 +1,25 @@
-from typing import Type, Any
-import os
-from pydantic import BaseModel, Field
-from superagi.tools.base_tool import BaseTool
-from alpaca.trading import TradingClient
+
+from pydantic import BaseModel
+from alpaca import REST
+from superagi.models.toolkit import Toolkit, BaseToolkit
+
 class AlpacaGetDayPercentChangeInput(BaseModel):
-    """
-    This is the AlpacaGetDayPercentChangeInput class.
-    """
-    symbol: str = Field(..., description="Symbol of the stock to get day percent change for")
+    symbol: str
 
-class AlpacaGetDayPercentChangeTool(BaseTool):
-    """
-    This is the AlpacaGetDayPercentChangeTool class.
-    """
-    name: str = "Alpaca Get Day Percent Change Tool"
-    args_schema: Type[AlpacaGetDayPercentChangeInput] = AlpacaGetDayPercentChangeInput
-    description: str = "Use Alpaca API to get day percent change of a stock."
-    agent_id: int = None
+class AlpacaGetDayPercentChangeOutput(BaseModel):
+    percent_change: float
 
-    def _execute(self, symbol: str):
-        """
-        This is the _execute method of the AlpacaGetDayPercentChangeTool class.
-        """
-        trading_client =  TradingClient(
-            self.get_tool_config('APCA_API_KEY_ID'), 
-            self.get_tool_config('APCA_API_SECRET_KEY'),
-            paper=bool(self.get_tool_config('APCA_PAPER'))
-        )
-        return trading_client.get_day_percent_change(symbol)
+class AlpacaGetDayPercentChangeTool(BaseToolkit):
 
+    class Config:
+        arbitrary_types_allowed = True
 
-        """
-        This method returns the value of an environment variable.
-        """
-    
+    def get_day_percent_change(self, data: AlpacaGetDayPercentChangeInput) -> AlpacaGetDayPercentChangeOutput:
+        client = REST(api_key="YOUR_API_KEY", secret_key="YOUR_SECRET_KEY")
+        
+        latest_trade = client.get_latest_trade(data.symbol)
+        barset = client.get_barset(data.symbol, "day", limit=1)
+        previous_close = barset[data.symbol][0].c
+        
+        percent_change = ((latest_trade.price - previous_close) / previous_close) * 100
+        return AlpacaGetDayPercentChangeOutput(percent_change=percent_change)
