@@ -1,11 +1,10 @@
-from abc import ABC
 from typing import List
 from superagi.tools.base_tool import BaseToolkit
 from alpaca_get_account_information_tool import AlpacaGetAccountInformationTool
 from alpaca_get_positions_tool import AlpacaGetPositionsTool
 from alpaca_monitor_tool import AlpacaMonitorTool
 
-class AlpacaToolkit(BaseToolkit, ABC):
+class AlpacaToolkit(BaseToolkit):
     name = "Alpaca Toolkit"
     description = "Toolkit for interacting with Alpaca API"
 
