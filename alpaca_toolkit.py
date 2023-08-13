@@ -1,9 +1,10 @@
+from abc import ABC
 from typing import List
 from fastapi import HTTPException
 from superagi.tools.Base_tool import BaseToolkit
 from alpaca_monitor_tool import AlpacaMonitorTool
 
-class AlpacaToolkit(BaseToolkit):
+class AlpacaToolkit(BaseToolkit, ABC):
     __toolkit_name__ = "Alpaca Toolkit"
     __toolkit_description__ = "Toolkit for Alpaca trading platform"
     __toolkit_version__ = "1.0.0"
