@@ -31,8 +31,8 @@ class AlpacaCloseTradeTool(BaseTool):
         return trading_client.close_trade(symbol, qty)
 
 
-    def get_tool_config(self, key: str) -> Any:
+    # def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environmentarian key.
         """
-        return os.environ.get(key)
+        # return os.environ.get(key)

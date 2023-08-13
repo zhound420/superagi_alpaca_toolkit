@@ -28,8 +28,8 @@ class AlpacaCloseAllTradesTool(BaseTool):
             return {"error": str(e)}
 
 
-    def get_tool_config(self, key: str) -> Any:
+    # def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environment variable.
         """
-        return os.environ.get(key)
+        # return os.environ.get(key)
