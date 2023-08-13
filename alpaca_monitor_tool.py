@@ -1,4 +1,4 @@
-import alpaca_trade_api as tradeapi
+from alpaca.trading import TradingClient
 from superagi.tools.tool_interface import BaseTool
 
 class AlpacaMonitorTool(BaseTool):
@@ -10,6 +10,6 @@ class AlpacaMonitorTool(BaseTool):
         pass
 
     def execute(self, params):
-        api = tradeapi.REST(params["api_key"], params["secret_key"], base_url=params["base_url"])
+        api = TradingClient.REST(params["api_key"], params["secret_key"], base_url=params["base_url"])
         account = api.get_account()
         return {"status": account.status}

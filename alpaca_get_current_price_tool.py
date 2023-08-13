@@ -1,6 +1,6 @@
 
 from pydantic import BaseModel
-from alpaca import REST
+from alpaca.trading import TradingClient
 from superagi.models.toolkit import Toolkit, BaseToolkit
 
 class AlpacaGetCurrentPriceInput(BaseModel):
@@ -15,6 +15,6 @@ class AlpacaGetCurrentPriceTool(BaseToolkit):
         arbitrary_types_allowed = True
 
     def get_current_price(self, data: AlpacaGetCurrentPriceInput) -> AlpacaGetCurrentPriceOutput:
-        client = REST(api_key="YOUR_API_KEY", secret_key="YOUR_SECRET_KEY")
+        client = TradingClient.REST(api_key="YOUR_API_KEY", secret_key="YOUR_SECRET_KEY")
         latest_trade = client.get_latest_trade(data.symbol)
         return AlpacaGetCurrentPriceOutput(price=latest_trade.price)
