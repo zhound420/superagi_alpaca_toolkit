@@ -1,6 +1,5 @@
 
 from pydantic import BaseModel, Field
-from pydantic import BaseModel, Field
 from typing import Type, Any, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading import TradingClient
@@ -32,9 +31,7 @@ class AlpacaGetCurrentPriceTool(BaseTool):
         return trading_client.get_current_price(symbol)
 
 
-    # def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environment variable.
         """
-        # return os.environ.get(key)
     

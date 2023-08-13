@@ -1,7 +1,6 @@
 from typing import Type, Any
 import os
 from pydantic import BaseModel, Field
-from pydantic import BaseModel, Field
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading import TradingClient
 class AlpacaCloseTradeInput(BaseModel):
@@ -24,7 +23,7 @@ class AlpacaCloseTradeTool(BaseTool):
         """
         This is the _execute method of the AlpacaCloseTradeTool class.
         """
-        trading_client =  REST(
+        trading_client = TradingClient.REST(
             self.get_tool_config('APCA_API_KEY_ID'), 
             self.get_tool_config('APCA_API_SECRET_KEY'),
             paper=bool(self.get_tool_config('APCA_PAPER'))
@@ -32,8 +31,6 @@ class AlpacaCloseTradeTool(BaseTool):
         return trading_client.close_trade(symbol, qty)
 
 
-    # def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environmentarian key.
         """
-        # return os.environ.get(key)

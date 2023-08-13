@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-
 from pydantic import BaseModel, Field
+
 from typing import Type, Any, Optional
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading import TradingClient
@@ -29,8 +29,6 @@ class AlpacaCloseAllTradesTool(BaseTool):
             return {"error": str(e)}
 
 
-    # def get_tool_config(self, key: str) -> Any:
         """
         This method returns the value of an environment variable.
         """
-        # return os.environ.get(key)

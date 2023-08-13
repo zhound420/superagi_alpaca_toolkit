@@ -1,8 +1,8 @@
 from typing import Any, Type
 from pydantic import BaseModel, Field
-from pydantic import BaseModel, Field
 from superagi.tools.base_tool import BaseTool
 import asyncio
+from alpaca.stream import Stream
 import logging
 
 class AlpacaMonitorInput(BaseModel):

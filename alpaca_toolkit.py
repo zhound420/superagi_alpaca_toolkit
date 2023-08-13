@@ -8,8 +8,6 @@ from alpaca_monitor_tool import AlpacaMonitorTool
 class AlpacaToolkit(BaseToolkit, ABC):
     name: str = "Alpaca Toolkit"
     description: str = "Toolkit for Alpaca Trading APIs"
-    name = "Alpaca Toolkit"
-    description = "Toolkit for interacting with Alpaca API"
 
     def get_tools(self):
         return [AlpacaGetAccountInformationTool(), AlpacaGetPositionsTool(), AlpacaMonitorTool()]
@@ -20,4 +18,3 @@ class AlpacaToolkit(BaseToolkit, ABC):
         "APCA_API_SECRET_KEY",
         "APCA_PAPER"
         ]
-
