@@ -1,12 +1,7 @@
-from abc import ABC
-from typing import List
-from fastapi import HTTPException
-from superagi.tools.base_tool import BaseToolkit
-from alpaca_monitor_tool import AlpacaMonitorTool
-
-class AlpacaToolkit(BaseToolkit, ABC):
-        name: str = "Alpaca Toolkit"
-        description: str = "Toolkit for Alpaca trading platform"
+from superagi.tools.base_tool import BaseBaseToolkit, BaseTool
+class AlpacaBaseToolkit(BaseBaseToolkit, ABC):
+        name: str = "Alpaca BaseToolkit"
+        description: str = "BaseToolkit for Alpaca trading platform"
         toolkit_version: str = "1.0.0"
 
 def __init__(self, session, organisation):
@@ -15,13 +10,13 @@ def __init__(self, session, organisation):
 
 def register(self):
         try:
-            toolkit = create_toolkit(self.session, self.organisation, Toolkit(
+            toolkit = create_toolkit(self.session, self.organisation, BaseToolkit(
                 name=self.name, description=self.description, version=self.toolkit_version))
             self.register_tools(toolkit)
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Error registering {self.name} toolkit: {e}")
 
-def register_tools(self, toolkit: Toolkit):
+def register_tools(self, toolkit: BaseToolkit):
         tools = get_tools_for_toolkit(self.session, toolkit.id)
         existing_tools = [tool.name for tool in tools]
         
