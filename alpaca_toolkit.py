@@ -1,3 +1,4 @@
+from typing import List
 from abc import ABC
 from superagi.tools.base_tool import BaseToolkit, BaseTool
 class AlpacaBaseToolkit(BaseToolkit, ABC):
