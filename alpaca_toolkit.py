@@ -2,8 +2,8 @@ from typing import List
 from abc import ABC
 from superagi.tools.base_tool import BaseToolkit, BaseTool
 class AlpacaBaseToolkit(BaseToolkit, ABC):
-        name: str = "Alpaca BaseBaseToolkit"
-        description: str = "BaseBaseToolkit for Alpaca trading platform"
+        name: str = "Alpaca BaseToolkit"
+        description: str = "BaseToolkit for Alpaca trading platform"
         toolkit_version: str = "1.0.0"
 
 def __init__(self, session, organisation):
@@ -12,7 +12,7 @@ def __init__(self, session, organisation):
 
 def register(self):
         try:
-            toolkit = create_toolkit(self.session, self.organisation, BaseBaseToolkit(
+            toolkit = create_toolkit(self.session, self.organisation, BaseToolkit(
                 name=self.name, description=self.description, version=self.toolkit_version))
             self.register_tools(toolkit)
         except Exception as e:
