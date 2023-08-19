@@ -1,3 +1,8 @@
-APCA_API_KEY_ID: 'YOUR_APCA_API_KEY_ID'
-APCA_API_SECRET_KEY: 'YOUR_APCA_API_SECRET_KEY'
-APCA_PAPER: 'TRUE'
+
+# Alpaca API Configuration
+APCA_API_KEY_ID: YOUR_API_KEY_ID
+APCA_API_SECRET_KEY: YOUR_API_SECRET_KEY
+APCA_API_BASE_URL: https://paper-api.alpaca.markets
+
+# Other Configuration (if needed)
+# ...
