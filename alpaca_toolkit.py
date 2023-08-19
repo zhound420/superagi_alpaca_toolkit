@@ -1,6 +1,6 @@
 from abc import ABC
 from superagi.tools.base_tool import BaseToolkit, BaseTool
-class AlpacaBaseBaseToolkit(BaseBaseToolkit, ABC):
+class AlpacaBaseToolkit(BaseToolkit, ABC):
         name: str = "Alpaca BaseBaseToolkit"
         description: str = "BaseBaseToolkit for Alpaca trading platform"
         toolkit_version: str = "1.0.0"
