@@ -17,7 +17,7 @@ def register(self):
         except Exception as e:
             raise HTTPException(status_code=400, detail=f"Error registering {self.name} toolkit: {e}")
 
-def register_tools(self, toolkit: BaseBaseToolkit):
+def register_tools(self, toolkit: BaseToolkit):
         tools = get_tools_for_toolkit(self.session, toolkit.id)
         existing_tools = [tool.name for tool in tools]
         
