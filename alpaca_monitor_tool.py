@@ -9,7 +9,7 @@ class AlpacaMonitorTool(BaseTool):
     def __init__(self):
         pass
 
-    def execute(self, params):
+    def _execute(self, params):
         api = TradingClient.REST(params["api_key"], params["secret_key"], base_url=params["base_url"])
         account = api.get_account()
         return {"status": account.status}
