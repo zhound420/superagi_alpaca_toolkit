@@ -1,7 +1,7 @@
 
 from pydantic import BaseModel
 from alpaca.trading import TradingClient
-from superagi.models.toolkit import Toolkit, BaseToolkit
+from superagi.tools.base_tool import BaseTool, BaseToolkit
 
 class AlpacaGetCurrentPriceInput(BaseModel):
     symbol: str
@@ -9,7 +9,7 @@ class AlpacaGetCurrentPriceInput(BaseModel):
 class AlpacaGetCurrentPriceOutput(BaseModel):
     price: float
 
-class AlpacaGetCurrentPriceTool(BaseToolkit):
+class AlpacaGetCurrentPriceTool(BaseTool):
     
     class Config:
         arbitrary_types_allowed = True
