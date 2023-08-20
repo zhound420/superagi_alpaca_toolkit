@@ -1,7 +1,7 @@
 
 from pydantic import BaseModel
 from alpaca.trading.client import TradingClient as REST
-from superagi.models.toolkit import BaseTool, BaseToolkit
+from superagi.tools.base_tool import BaseTool, BaseToolkit
 
 class AlpacaGetDayPercentChangeInput(BaseModel):
     symbol: str
