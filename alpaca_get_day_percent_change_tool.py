@@ -9,7 +9,7 @@ class AlpacaGetDayPercentChangeInput(BaseModel):
 class AlpacaGetDayPercentChangeOutput(BaseModel):
     percent_change: float
 
-class AlpacaGetDayPercentChangeTool(BaseToolkit):
+class AlpacaGetDayPercentChangeTool(BaseTool):
 
     class Config:
         arbitrary_types_allowed = True
