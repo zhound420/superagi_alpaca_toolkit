@@ -2,7 +2,7 @@
 from superagi.tools.base_tool import BaseTool, tool
 from alpaca.trading.client import TradingClient as REST
 from superagi.models.tool_config import ToolConfig
-from typing import Dict
+from typing import Dict, Union
 
 class AlpacaSubmitOrderTool(BaseTool):
     name = "AlpacaSubmitOrderTool"
