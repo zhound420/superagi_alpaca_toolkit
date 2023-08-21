@@ -9,6 +9,17 @@ class AlpacaGetAccountInformationTool(BaseTool):
 
     @tool()
     def _execute(self, api_key: str, api_secret: str, paper: bool = True) -> Dict:
+        """
+        Execute the Alpaca Get Account Information tool to retrieve account details.
+        
+        Parameters:
+        - api_key: API key for Alpaca authentication.
+        - api_secret: API secret for Alpaca authentication.
+        - paper: Flag to indicate whether to use paper trading environment. Default is True.
+        
+        Returns:
+        - A dictionary with account details.
+        """
         trading_client = TradingClient(api_key, api_secret, paper=paper)
         account = trading_client.get_account()
         # Convert the account object to a dictionary for return
