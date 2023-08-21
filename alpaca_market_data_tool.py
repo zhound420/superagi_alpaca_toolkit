@@ -8,7 +8,7 @@ class AlpacaMarketDataTool(BaseTool):
     name = "AlpacaMarketDataTool"
     description = "Retrieve market data for a list of symbols"
 
-    @tool(args_schema=Dict[symbols:=List[str]])
+    @tool(args_schema=Dict[symbols==List[str]])
     def _execute(self, symbols: List[str]) -> Dict:
         api = REST(self.get_tool_config(ToolConfig("ALPACA_API_KEY")),
                    self.get_tool_config(ToolConfig("ALPACA_SECRET_KEY")),
