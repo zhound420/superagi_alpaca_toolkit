@@ -2,7 +2,7 @@ import os
 from pydantic import BaseModel
 from typing import Dict
 from superagi.tools.base_tool import BaseTool
-from alpaca_trade_api.rest import REST
+from alpaca.trading.client import TradingClient as REST
 import yaml
 
 def load_config(file_path: str = "config.yaml") -> dict:
