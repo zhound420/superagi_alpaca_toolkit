@@ -1,8 +1,10 @@
-
 from typing import Dict
-
-from superagi.tools.base_tool import BaseTool, tool
+from pydantic import BaseModel
 from alpaca.trading.client import TradingClient
+from superagi.tools.base_tool import BaseTool, tool
+
+ALPACA_API_KEY = "YOUR_ALPACA_API_KEY"
+ALPACA_SECRET_KEY = "YOUR_ALPACA_SECRET_KEY"
 
 
 class AlpacaGetAccountInformationTool(BaseTool):
@@ -15,9 +17,12 @@ class AlpacaGetAccountInformationTool(BaseTool):
         self.api_key = self.get_tool_config("ALPACA_API_KEY")
         self.secret_key = self.get_tool_config("ALPACA_SECRET_KEY")
 
-    @tool()
+    @tool("Alpaca Get Account Information")
     def _execute(self, input_data: Dict) -> Dict:
-        trading_client = TradingClient(self.api_key, self.secret_key, base_url=self.base_url)
+        """
+        Retrieves account information from Alpaca.
+        """
+        trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY)
         account = trading_client.get_account()
-        return account.to_dict()
+        return account.dict()
 
