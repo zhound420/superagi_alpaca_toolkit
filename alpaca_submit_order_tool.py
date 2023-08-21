@@ -1,7 +1,7 @@
 from typing import Dict, Union
 from pydantic import BaseModel
 from alpaca.trading.client import TradingClient
-from superagi.tools.external_tools.superagi_alpaca_toolkit.alpaca_toolkit import APCA_API_KEY_ID, APCA_API_SECRET_KEY, APCA_PAPER
+#from superagi.tools.external_tools.superagi_alpaca_toolkit.alpaca_toolkit import APCA_API_KEY_ID, APCA_API_SECRET_KEY, APCA_PAPER
 from superagi.tools.base_tool import BaseTool, tool
 
 class AlpacaSubmitOrderTool(BaseTool, BaseModel):
