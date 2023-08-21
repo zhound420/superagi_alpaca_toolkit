@@ -16,7 +16,7 @@ class AlpacaGetAccountInformationTool(BaseTool):
         self.secret_key = self.get_tool_config("ALPACA_SECRET_KEY")
 
     @tool()
-    def execute(self, input_data: Dict) -> Dict:
+    def _execute(self, input_data: Dict) -> Dict:
         trading_client = TradingClient(self.api_key, self.secret_key, base_url=self.base_url)
         account = trading_client.get_account()
         return account.to_dict()
