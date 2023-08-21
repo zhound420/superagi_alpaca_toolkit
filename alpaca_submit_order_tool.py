@@ -5,7 +5,7 @@ from superagi.models.tool_config import ToolConfig
 from typing import Dict, Union
 from pydantic import BaseModel, Field
 
-class AlpacaSubmitOrderTool(BaseTool, BaseModel):
+class AlpacaSubmitOrderTool(BaseTool):
     name = "AlpacaSubmitOrderTool"
     description = "Submit an order to Alpaca"
 
