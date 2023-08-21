@@ -1,5 +1,5 @@
 from typing import Dict
-from superagi.tools.base_tool import BaseTool, tool
+from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
 
 # Define the main tool
@@ -7,7 +7,6 @@ class AlpacaGetAccountInformationTool(BaseTool):
     name = "alpaca_get_account_information"
     description = "Retrieve the account information from Alpaca using alpaca-py."
 
-    @tool()
     def _execute(self, api_key: str, api_secret: str, paper: bool = True) -> Dict:
         """
         Execute the Alpaca Get Account Information tool to retrieve account details.
@@ -48,3 +47,6 @@ class AlpacaGetAccountInformationTool(BaseTool):
             "sma": float(account.sma),
             "daytrade_count": int(account.daytrade_count),
         }
+    
+    def _execute(self, api_key: str, api_secret: str, paper: bool = True) -> Dict:
+        return self._execute(api_key, api_secret, paper)
