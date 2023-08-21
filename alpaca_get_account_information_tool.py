@@ -1,7 +1,7 @@
 
 from typing import Dict
 
-from superagi.models.base_tool import BaseTool, tool
+from superagi.tools.base_tool import BaseTool, tool
 from alpaca.trading.client import TradingClient
 
 
