@@ -1,6 +1,6 @@
 
 from superagi.tools.base_tool import BaseTool, tool
-from alpaca_trade_api import REST
+from alpaca.trading.client import TradingClient as REST
 from superagi.models.tool_config import ToolConfig
 from typing import Dict
 
