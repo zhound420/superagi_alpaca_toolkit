@@ -1,30 +1,20 @@
 
-from superagi.tools.base_tool import BaseTool, ToolResponse
-from alpaca import Alpaca
-from typing import Any, Dict
+from superagi.models.base_tool import BaseTool, tool
+from alpaca_trade_api import REST
+from superagi.models.tool_config import ToolConfig
+from typing import Dict, List
 
 class AlpacaMarketDataTool(BaseTool):
+    name = "AlpacaMarketDataTool"
+    description = "Retrieve market data for a list of symbols"
 
-    def __init__(self, session: Dict[str, Any], organisation: str):
-        self.alpaca = Alpaca(session["api_key"], session["api_secret"])
-    
-    @staticmethod
-    def get_name() -> str:
-        return "Alpaca Market Data Tool"
-
-    @staticmethod
-    def get_description() -> str:
-        return "Fetch market data using Alpaca API."
-
-    def _execute(self, data: Dict[str, Any]) -> ToolResponse:
-        # Here, we can add logic to fetch specific market data as required.
-        # For now, I'll add a placeholder for fetching stock data for a symbol.
-        symbol = data.get("symbol")
-        if not symbol:
-            return ToolResponse(False, "Symbol is required", None)
-
-        try:
-            stock_data = self.alpaca.get_stock_data(symbol)
-            return ToolResponse(True, "Successfully fetched stock data", stock_data)
-        except Exception as e:
-            return ToolResponse(False, str(e), None)
+    @tool(args_schema=Dict[symbols=List[str]])
+    def _execute(self, symbols: List[str]) -> Dict:
+        api = REST(self.get_tool_config(ToolConfig("ALPACA_API_KEY")),
+                   self.get_tool_config(ToolConfig("ALPACA_SECRET_KEY")),
+                   base_url=self.get_tool_config(ToolConfig("ALPACA_BASE_URL")))
+        market_data = {}
+        for symbol in symbols:
+            barset = api.get_barset(symbol, "day", limit=5)
+            market_data[symbol] = barset[symbol].df.to_dict()
+        return market_data
