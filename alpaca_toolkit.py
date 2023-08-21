@@ -1,36 +1,25 @@
-from typing import List
+
 from abc import ABC
+from typing import List, Type
 from superagi.tools.base_tool import BaseToolkit, BaseTool
-class AlpacaBaseToolkit(BaseToolkit, ABC):
-        name: str = "Alpaca BaseToolkit"
-        description: str = "BaseToolkit for Alpaca trading platform"
-        toolkit_version: str = "1.0.0"
 
-def __init__(self, session, organisation):
-        self.session = session
-        self.organisation = organisation
+from .alpaca_close_all_trades_tool import AlpacaCloseAllTradesTool
+from .alpaca_place_trade_tool import AlpacaPlaceTradeTool
+from .alpaca_check_price_changes_tool import AlpacaCheckPriceChangesTool
+from .alpaca_close_trade_tool import AlpacaCloseTradeTool
+from .alpaca_get_day_percent_change_tool import AlpacaGetDayPercentChangeTool
+from .alpaca_monitor_tool import AlpacaMonitorTool
+from .alpaca_get_account_information_tool import AlpacaGetAccountInformationTool
+from .alpaca_get_positions_tool import AlpacaGetPositionsTool
+from .alpaca_get_current_price_tool import AlpacaGetCurrentPriceTool
 
-def register(self):
-        try:
-            toolkit = create_toolkit(self.session, self.organisation, BaseToolkit(
-                name=self.name, description=self.description, version=self.toolkit_version))
-            self.register_tools(toolkit)
-        except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Error registering {self.name} toolkit: {e}")
+class AlpacaToolkit(BaseToolkit, ABC):
+    name = "Alpaca Toolkit"
+    description = "Toolkit for interacting with Alpaca API"
 
-def register_tools(self, toolkit: BaseToolkit):
-        tools = get_tools_for_toolkit(self.session, toolkit.id)
-        existing_tools = [tool.name for tool in tools]
-        
-        if "Alpaca Monitor Tool" not in existing_tools:
-            tool = Tool(name="Alpaca Monitor Tool", description="Monitors Alpaca trades", version="1.0.0")
-            create_tool(self.session, toolkit.id, tool)
+    def get_tools(self) -> List[Type[BaseTool]]:
+        return [AlpacaCloseAllTradesTool, AlpacaPlaceTradeTool, AlpacaCheckPriceChangesTool, AlpacaCloseTradeTool, AlpacaGetDayPercentChangeTool, AlpacaMonitorTool, AlpacaGetAccountInformationTool, AlpacaGetPositionsTool, AlpacaGetCurrentPriceTool
+    ]
 
-def get_tools(self) -> List[str]:
-        return ["Alpaca Monitor Tool"]
-
-def get_tool(self, tool_name: str):
-        if tool_name == "Alpaca Monitor Tool":
-            return AlpacaMonitorTool()
-        else:
-            raise HTTPException(status_code=404, detail=f"Tool {tool_name} not found in {self.name} toolkit")
+    def get_env_keys(self) -> List[str]:
+        return []
