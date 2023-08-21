@@ -3,8 +3,9 @@ from superagi.tools.base_tool import BaseTool, tool
 from alpaca.trading.client import TradingClient as REST
 from superagi.models.tool_config import ToolConfig
 from typing import Dict, Union
+from pydantic import BaseModel, Field
 
-class AlpacaSubmitOrderTool(BaseTool):
+class AlpacaSubmitOrderTool(BaseTool, BaseModel):
     name = "AlpacaSubmitOrderTool"
     description = "Submit an order to Alpaca"
 
