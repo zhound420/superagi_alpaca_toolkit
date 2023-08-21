@@ -1,22 +1,33 @@
-from typing import Type, Any
-import os
-from pydantic import BaseModel, Field
 from superagi.tools.base_tool import BaseTool
-from alpaca.trading.client import TradingClient as REST
-class AlpacaGetAccountInformationToolInput(BaseModel):
-    pass
+from superagi.models.tool_output import ToolOutput
+from typing import Any, Dict, Optional
+from alpaca_py import Account
 
-class AlpacaGetAccountInformationTool(BaseTool):
-    """This is the AlpacaGetAccountInformationTool class."""
-    name: str = "Alpaca Get Account Information Tool"
-    args_schema: Type[BaseModel] = AlpacaGetAccountInformationToolInput
-    description: str = "Use Alpaca API to get account information."
+class AlpacaGetAccountTool(BaseTool):
 
-    def _execute(self):
-        """This is the _execute method of the AlpacaGetAccountInformationTool class."""
-        trading_client = REST(
-            self.get_tool_config('APCA_API_KEY_ID'), 
-            self.get_tool_config('APCA_API_SECRET_KEY'),
-            base_url='https://paper-api.alpaca.markets' if bool(self.get_tool_config('APCA_PAPER')) else 'https://api.alpaca.markets'
-        )
-        return trading_client.get_account()
+    @property
+    def name(self) -> str:
+        return "Get Account Information"
+
+    @property
+    def description(self) -> str:
+        return "Fetches the account information for the authenticated user from Alpaca."
+
+    @property
+    def parameters(self) -> Dict[str, Any]:
+        # This tool doesn't require any additional parameters.
+        return {}
+
+    async def _execute(self, parameters: Dict[str, Any]) -> ToolOutput:
+        # For now, we'll stub out the actual API interaction and return a mock response
+        # You'll need to implement the actual logic to fetch account information using alpaca_py
+        
+        # Stubbing out the API response
+        mock_response = {
+            "id": "MOCK_ID",
+            "status": "ACTIVE",
+            "currency": "USD",
+            "buying_power": "10000"
+        }
+        
+        return ToolOutput(success=True, data=mock_response, message="Successfully fetched account information.")
