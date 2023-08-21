@@ -1,15 +1,20 @@
-
+from pydantic import BaseModel
 from superagi.tools.base_tool import BaseTool, tool
 from alpaca.trading.client import TradingClient as REST
 from superagi.tools.base_tool import ToolConfig
 from typing import Dict, List
 
+class AlpacaSymbols(BaseModel):
+    symbols: List[str]
+
 class AlpacaMarketDataTool(BaseTool):
     name = "AlpacaMarketDataTool"
-    description = "Retrieve market data for a list of symbols"
 
-    @tool(args_schema=Dict[str, List[str]])
+    @tool(args_schema=AlpacaSymbols)
     def _execute(self, symbols: List[str]) -> Dict:
+        """
+        Retrieve market data for a list of symbols.
+        """
         api = REST(self.get_tool_config(ToolConfig("ALPACA_API_KEY")),
                    self.get_tool_config(ToolConfig("ALPACA_SECRET_KEY")),
                    base_url=self.get_tool_config(ToolConfig("ALPACA_BASE_URL")))
