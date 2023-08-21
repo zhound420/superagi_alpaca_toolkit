@@ -1,20 +1,31 @@
+import os
+from pydantic import BaseModel
+from typing import Dict
+from superagi.tools.base_tool import BaseTool
+from alpaca_trade_api.rest import REST
+import yaml
 
-from typing import List
-from superagi.tools.external_tools.superagi_alpaca_toolkit.alpaca_get_account_information_tool import AlpacaGetAccountInformationTool
-from superagi.tools.external_tools.superagi_alpaca_toolkit.alpaca_market_data_tool import AlpacaMarketDataTool
-from superagi.tools.external_tools.superagi_alpaca_toolkit.alpaca_submit_order_tool import AlpacaSubmitOrderTool
-from superagi.tools.base_toolkit import BaseToolkit
+def load_config(file_path: str = "config.yaml") -> dict:
+    with open(file_path, 'r') as file:
+        config = yaml.safe_load(file)
+    return config
 
-class AlpacaToolkit(BaseToolkit):
-    name = "AlpacaToolkit"
-    description = "Toolkit for Alpaca API interactions"
+class AlpacaToolkit(BaseModel):
+    api: REST = None
 
-    def get_tools(self) -> List:
-        return [
-            AlpacaGetAccountInformationTool(),
-            AlpacaMarketDataTool(),
-            AlpacaSubmitOrderTool()
-        ]
+    @classmethod
+    def init(cls):
+        config = load_config()
+        APCA_API_KEY_ID = config.get('APCA_API_KEY_ID')
+        APCA_API_SECRET_KEY = config.get('APCA_API_SECRET_KEY')
+        APCA_PAPER = config.get('APCA_PAPER', 'TRUE') == 'TRUE'
+        cls.api = REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY, base_url="https://paper-api.alpaca.markets" if APCA_PAPER else None)
 
-    def get_env_keys(self) -> List[str]:
-        return ["ALPACA_API_KEY", "ALPACA_SECRET_KEY", "ALPACA_BASE_URL"]
+    @classmethod
+    def get_api(cls) -> REST:
+        if cls.api is None:
+            cls.init()
+        return cls.api
+
+    class Config:
+        arbitrary_types_allowed = True

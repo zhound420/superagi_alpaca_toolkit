@@ -1,20 +1,15 @@
-
-from superagi.tools.base_tool import BaseTool, tool
-from alpaca.trading.client import TradingClient as REST
-from superagi.models.tool_config import ToolConfig
 from typing import Dict, Union
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
+from alpaca_trade_api import TradingClient
+from .alpaca_toolkit import APCA_API_KEY_ID, APCA_API_SECRET_KEY, APCA_PAPER
+from superagi.tools.base_tool import BaseTool, tool
 
-class AlpacaSubmitOrderTool(BaseTool):
-    name = "AlpacaSubmitOrderTool"
-    description = "Submit an order to Alpaca"
-
+class AlpacaSubmitOrderTool(BaseTool, BaseModel):
+    
     @tool(args_schema=Dict[str, Union[str, int]])
     def _execute(self, symbol: str, qty: int, side: str, type: str, time_in_force: str) -> Dict:
-        api = REST(self.get_tool_config(ToolConfig("ALPACA_API_KEY")),
-                   self.get_tool_config(ToolConfig("ALPACA_SECRET_KEY")),
-                   base_url=self.get_tool_config(ToolConfig("ALPACA_BASE_URL")))
-        order = api.submit_order(
+        client = TradingClient(key_id=APCA_API_KEY_ID, secret_key=APCA_API_SECRET_KEY, base_url="https://paper-api.alpaca.markets" if APCA_PAPER else "https://api.alpaca.markets")
+        order = client.submit_order(
             symbol=symbol,
             qty=qty,
             side=side,
