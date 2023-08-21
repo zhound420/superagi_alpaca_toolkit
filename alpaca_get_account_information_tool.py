@@ -6,7 +6,6 @@ from superagi.tools.base_tool import BaseTool, tool
 ALPACA_API_KEY = "YOUR_ALPACA_API_KEY"
 ALPACA_SECRET_KEY = "YOUR_ALPACA_SECRET_KEY"
 
-
 class AlpacaGetAccountInformationTool(BaseTool):
     name = "alpaca_get_account_information_tool"
     description = "Fetches account details for the Alpaca trading platform."
@@ -22,7 +21,6 @@ class AlpacaGetAccountInformationTool(BaseTool):
         """
         Retrieves account information from Alpaca.
         """
-        trading_client = TradingClient(ALPACA_API_KEY, ALPACA_SECRET_KEY)
+        trading_client = TradingClient(self.api_key, self.secret_key)
         account = trading_client.get_account()
         return account.dict()
-
