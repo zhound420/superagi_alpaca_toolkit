@@ -8,7 +8,7 @@ class AlpacaSubmitOrderTool(BaseTool):
     name = "AlpacaSubmitOrderTool"
     description = "Submit an order to Alpaca"
 
-@tool(args_schema=Dict[str, Union[str, int]])
+    @tool(args_schema=Dict[str, Union[str, int]])
     def _execute(self, symbol: str, qty: int, side: str, type: str, time_in_force: str) -> Dict:
         api = REST(self.get_tool_config(ToolConfig("ALPACA_API_KEY")),
                    self.get_tool_config(ToolConfig("ALPACA_SECRET_KEY")),
