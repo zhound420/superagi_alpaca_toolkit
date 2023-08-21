@@ -6,7 +6,7 @@ from superagi.tools.base_tool import BaseTool, tool
 
 class AlpacaSubmitOrderTool(BaseTool, BaseModel):
     
-    @tool(args_schema=Dict[str, Union[str, int]])
+    @tool(args_schema=SubmitOrderSchema)
     def _execute(self, symbol: str, qty: int, side: str, type: str, time_in_force: str) -> Dict:
         client = TradingClient(key_id=APCA_API_KEY_ID, secret_key=APCA_API_SECRET_KEY, base_url="https://paper-api.alpaca.markets" if APCA_PAPER else "https://api.alpaca.markets")
         order = client.submit_order(
