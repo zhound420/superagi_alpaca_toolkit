@@ -2,7 +2,7 @@
 from typing import Dict
 
 from superagi.tools.base_tool import BaseTool, tool
-from superagi.types.tool_output import ToolOutput
+from superagi.tools.base_tool import ToolOutput
 
 from superagi_alpaca_toolkit.alpaca_api import AlpacaAPI
 
