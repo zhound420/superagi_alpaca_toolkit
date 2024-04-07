@@ -1,4 +1,4 @@
-alpaca-py
+alpaca-py==0.20.1
 datapackage
 yfinance
 fastapi
@@ -6,6 +6,6 @@ uvicorn
 gunicorn
 beautifulsoup4
 python-dateutil
-pydantic==2.6.4
+pydantic
 pytest
 pandas
