@@ -1,4 +1,4 @@
-alpaca-py==0.20.1
+alpaca-py==0.19.1
 datapackage
 yfinance
 fastapi
