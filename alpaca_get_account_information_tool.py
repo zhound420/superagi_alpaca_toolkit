@@ -2,7 +2,6 @@ from typing import Dict
 from superagi.tools.base_tool import BaseTool
 from alpaca.trading.client import TradingClient
 
-# Define the main tool
 class AlpacaGetAccountInformationTool(BaseTool):
     name = "alpaca_get_account_information"
     description = "Retrieve the account information from Alpaca using alpaca-py."
@@ -29,14 +28,14 @@ class AlpacaGetAccountInformationTool(BaseTool):
             "buying_power": float(account.buying_power),
             "cash": float(account.cash),
             "portfolio_value": float(account.portfolio_value),
-            "pattern_day_trader": bool(account.pattern_day_trader),
-            "trading_blocked": bool(account.trading_blocked),
-            "transfers_blocked": bool(account.transfers_blocked),
-            "account_blocked": bool(account.account_blocked),
-            "created_at": account.created_at,
-            "trade_suspended_by_user": bool(account.trade_suspended_by_user),
+            "pattern_day_trader": account.pattern_day_trader,
+            "trading_blocked": account.trading_blocked,
+            "transfers_blocked": account.transfers_blocked,
+            "account_blocked": account.account_blocked,
+            "created_at": account.created_at.isoformat(),
+            "trade_suspended_by_user": account.trade_suspended_by_user,
             "multiplier": float(account.multiplier),
-            "shorting_enabled": bool(account.shorting_enabled),
+            "shorting_enabled": account.shorting_enabled,
             "equity": float(account.equity),
             "last_equity": float(account.last_equity),
             "long_market_value": float(account.long_market_value),
@@ -45,8 +44,5 @@ class AlpacaGetAccountInformationTool(BaseTool):
             "maintenance_margin": float(account.maintenance_margin),
             "last_maintenance_margin": float(account.last_maintenance_margin),
             "sma": float(account.sma),
-            "daytrade_count": int(account.daytrade_count),
+            "daytrade_count": account.daytrade_count,
         }
-    
-    def _execute(self, api_key: str, api_secret: str, paper: bool = True) -> Dict:
-        return self._execute(api_key, api_secret, paper)

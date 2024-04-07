@@ -1,6 +1,8 @@
 from superagi.tools.base_tool import BaseTool
 from pydantic import BaseModel, Field
 from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import MarketOrderRequest
+from alpaca.trading.enums import OrderSide, TimeInForce
 from typing import Type
 
 class AlpacaPlaceTradeInput(BaseModel):
@@ -17,12 +19,19 @@ class AlpacaPlaceTradeTool(BaseTool):
 
     def _execute(self, symbol: str, qty: int, side: str):
         """This is the _execute method of the AlpacaPlaceTradeTool class."""
-        api = TradingClient.REST(
+        api = TradingClient(
             self.get_tool_config('APCA_API_KEY_ID'), 
             self.get_tool_config('APCA_API_SECRET_KEY'),
-            base_url='https://paper-api.alpaca.markets'
+            paper=True  # Assuming using paper trading. For live trading, set paper=False.
         )
         try:
-            return api.submit_order(symbol, qty, side, 'market', 'gtc')
+            order_request = MarketOrderRequest(
+                symbol=symbol,
+                qty=qty,
+                side=OrderSide[side.upper()],  # Converts string to OrderSide enum
+                time_in_force=TimeInForce.UTC  # Assuming 'utc' for this example
+            )
+            order = api.submit_order(order_data=order_request)
+            return order._raw  # Accessing the raw response
         except Exception as e:
             return {"error": str(e)}

@@ -1,36 +1,41 @@
-from typing import Type, Any
-import os
-from pydantic import BaseModel, Field
+from alpaca.trading.client import TradingClient
+from alpaca.trading.requests import MarketOrderRequest, OrderSide
 from superagi.tools.base_tool import BaseTool
-from alpaca.trading import TradingClient
+from typing import Type
+from pydantic import BaseModel, Field
+
 class AlpacaCloseTradeInput(BaseModel):
-    """
-    This is the AlpacaCloseTradeInput class.
-    """
-    symbol: str = Field(..., description="Symbol of the stock to close the trade for")
-    qty: int = Field(..., description="Quantity of the stock to close the trade for")
+    symbol: str = Field(..., description="Symbol of the stock to close the trade for.")
+    # Removed qty as we will determine the qty based on the position size
 
 class AlpacaCloseTradeTool(BaseTool):
-    """
-    This is the AlpacaCloseTradeTool class.
-    """
     name: str = "Alpaca Close Trade Tool"
     args_schema: Type[BaseModel] = AlpacaCloseTradeInput
     description: str = "Use Alpaca API to close a trade."
-    agent_id: int = None
 
-    def _execute(self, symbol: str, qty: int):
-        """
-        This is the _execute method of the AlpacaCloseTradeTool class.
-        """
-        trading_client = TradingClient.REST(
-            self.get_tool_config('APCA_API_KEY_ID'), 
-            self.get_tool_config('APCA_API_SECRET_KEY'),
-            paper=bool(self.get_tool_config('APCA_PAPER'))
+    def _execute(self, symbol: str) -> dict:
+        trading_client = TradingClient(
+            os.getenv('APCA_API_KEY_ID'), 
+            os.getenv('APCA_API_SECRET_KEY'),
+            paper=os.getenv('APCA_PAPER', 'True').lower() in ('true', '1', 't')
         )
-        return trading_client.close_trade(symbol, qty)
 
+        # Fetch current positions
+        positions = trading_client.list_positions()
+        position_to_close = next((position for position in positions if position.symbol == symbol), None)
 
-        """
-        This method returns the value of an environmentarian key.
-        """
+        if position_to_close is None:
+            return {"error": f"No position found for symbol {symbol}."}
+        
+        # Determine the side based on the position's side
+        order_side = OrderSide.BUY if position_to_close.side == 'short' else OrderSide.SELL
+        
+        # Place an order to close the position
+        order_request = MarketOrderRequest(
+            symbol=symbol,
+            qty=abs(position_to_close.qty),
+            side=order_side,
+            time_in_force="gtc"
+        )
+        order = trading_client.submit_order(order_data=order_request)
+        return {"order_id": order.id}

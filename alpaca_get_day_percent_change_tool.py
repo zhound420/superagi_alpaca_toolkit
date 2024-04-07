@@ -1,25 +1,29 @@
+from typing import Type
+from pydantic import BaseModel, Field
+from superagi.tools.base_tool import BaseTool
+from alpaca.trading.client import TradingClient
 
-from pydantic import BaseModel
-from alpaca.trading.client import TradingClient as REST
-from superagi.tools.base_tool import BaseTool, BaseToolkit
+class AlpacaGetPositionsInput(BaseModel):
+    api_key: str = Field(..., description="API Key")
+    secret_key: str = Field(..., description="Secret Key")
+    paper: bool = Field(True, description="Whether to use paper trading environment")
 
-class AlpacaGetDayPercentChangeInput(BaseModel):
-    symbol: str
+class AlpacaGetPositionsOutput(BaseModel):
+    positions: list = Field(..., description="List of positions")
 
-class AlpacaGetDayPercentChangeOutput(BaseModel):
-    percent_change: float
+class AlpacaGetPositionsTool(BaseTool):
+    name: str = "AlpacaGetPositionsTool"
+    args_schema: Type[BaseModel] = AlpacaGetPositionsInput
+    output_schema: Type[BaseModel] = AlpacaGetPositionsOutput
 
-class AlpacaGetDayPercentChangeTool(BaseTool):
-
-    class Config:
-        arbitrary_types_allowed = True
-
-    def get_day_percent_change(self, data: AlpacaGetDayPercentChangeInput) -> AlpacaGetDayPercentChangeOutput:
-        client = REST(api_key="YOUR_API_KEY", secret_key="YOUR_SECRET_KEY")
+    def _execute(self, params: AlpacaGetPositionsInput) -> AlpacaGetPositionsOutput:
+        # Initialize TradingClient with paper trading parameter
+        api = TradingClient(params.api_key, params.secret_key, paper=params.paper)
         
-        latest_trade = client.get_latest_trade(data.symbol)
-        barset = client.get_barset(data.symbol, "day", limit=1)
-        previous_close = barset[data.symbol][0].c
+        # Fetch positions
+        positions = api.list_positions()
         
-        percent_change = ((latest_trade.price - previous_close) / previous_close) * 100
-        return AlpacaGetDayPercentChangeOutput(percent_change=percent_change)
+        # Prepare the positions data
+        positions_data = [position._raw for position in positions]
+        
+        return AlpacaGetPositionsOutput(positions=positions_data)

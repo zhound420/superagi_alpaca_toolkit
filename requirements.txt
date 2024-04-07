@@ -4,7 +4,6 @@ yfinance
 fastapi
 uvicorn
 gunicorn
-yfinance
 beautifulsoup4
 python-dateutil
 pydantic
