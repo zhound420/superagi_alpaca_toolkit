@@ -6,6 +6,6 @@ uvicorn
 gunicorn
 beautifulsoup4
 python-dateutil
-pydantic
+pydantic==2.6.0
 pytest
 pandas
